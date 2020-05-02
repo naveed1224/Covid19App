@@ -1,0 +1,16 @@
+{
+  "name": "covid19app",
+  "version": "1.0.0",
+  "description": "Full stack covid19 App for anonymous case submissions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Naveed Sultan",
+  "license": "ISC",
+  "dependencies": {
+    "csurf": "^1.11.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.11"
+  }
+}
