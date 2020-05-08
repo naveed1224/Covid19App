@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('../includes/head.ejs') %>
+    <title>Covid Front End Project</title>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <div class="uk-alert-danger" uk-alert style="margin-top: 0px; margin-bottom: 0;">
+        <a class="uk-alert-close" uk-close></a>
+        <center>
+            <p>Please Visit Privacy Policy and About page for important information regarding this Web App and our
+                Mission.
+            </p>
+        </center>
+    </div>
+
+    <div id="modal-group-1" uk-modal>
+        <div class="uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Anonymous Submission Details</h2>
+            </div>
+            <div class="uk-modal-body">
+                <div class="uk-alert-danger" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>Please do not include any Confidential information.</p>
+                </div>
+
+                <form class="uk-grid-small" uk-grid action="http://localhost:3000/case/case-create" method="POST">
+                    <div class="uk-width-1-1">
+                        <div id="custom-search-input">
+                            <div class="input-group">
+                                <div id="locationField">
+                                    <input id="autocomplete" placeholder="Enter case address(Autocomplete Enabled)"
+                                        type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-width-1-2@s">
+                        <input id="lat__case_submit" class="uk-input uk-form-width-medium" type="text"
+                            placeholder="Lat">
+                    </div>
+                    <div class="uk-width-1-2@s">
+                        <input id="lng__case_submit" class="uk-input uk-form-width-medium" type="text"
+                            placeholder="lng">
+                    </div>
+                    <!-- <div class="uk-margin">
+                        <input class="uk-input uk-form-width-large" type="text" placeholder="Enter any title">
+                    </div> -->
+                    <div class="uk-margin" style="margin-bottom: 0px;">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                            <input id="email__case" class="uk-input uk-form-width-large" type="email">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <textarea id="case__description" class="uk-textarea uk-form-width-large" rows="5"
+                            placeholder="Please provide a description"></textarea>
+                    </div>
+                    <!-- <input id="lat__case_submit" type="text" value="">
+                    <input id="lng__case_submit" type="text" value=""> -->
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button id="case__submit__button" class="uk-button uk-button-primary" type="button">Submit</button>
+                <!-- <a id="saveandviews1" href="" class="uk-button uk-button-primary" uk-toggle>Save</a> -->
+            </div>
+            </form>
+        </div>
+    </div>
+    <div id="modal-group-2" uk-modal>
+        <div class="uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header">
+                <h2 class="uk-modal-title">Anonomously Inform Somebody</h2>
+            </div>
+            <div class="uk-modal-body">
+                <div class="uk-alert-warning" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>Please Note you will not be able to send this user an Anonymous Email Message Again(Please see
+                        privacy page).</p>
+                </div>
+                <form action="">
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                            <input class="uk-input uk-form-width-large" type="email">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <textarea class="uk-textarea uk-form-width-large" rows="5" placeholder="Email Body"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button class="uk-button uk-button-primary" type="button">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="spinner" id="spinner__main__parent">
+        <span id="spinner__main" uk-spinner="ratio: 10"></span>
+    </div> -->
+    <div id="__googleMapsFrontPage">
+        <div>
+            <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <%- include('../includes/end.ejs') %>
+    <script>
+        UIkit.modal("#modal-group-1");
+    </script>
+
+</body>
+
+</html>
