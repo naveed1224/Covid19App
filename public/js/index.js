@@ -1,9 +1,10 @@
-import googleSearchApi from '/js/models/googleMapsInit.js'
+//test
+//import googleSearchApi from '/js/models/googleMapsInit.js'
 // start loaderloader
 //fetch all the results posts of results from the database as lat and lang
 //load google maps & all autocompletes
-const mapsInit = new googleSearchApi();
-mapsInit.initAutocomplete()
+// const mapsInit = new googleSearchApi();
+// mapsInit.initAutocomplete()
 //document.getElementById('spinner__main__parent').remove()
 //clear loader
 

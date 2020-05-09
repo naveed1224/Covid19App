@@ -27,7 +27,7 @@ app.set('views', 'views');
 //     extended: false
 // }));
 //static files: javascript/css
-app.use(express.static(path.join(__dirname, 'public')))
+app.use('/static', express.static(path.join(__dirname, 'public')))
 
 //setting headers to accept CORS for APIs
 app.use((req, res, next) => {
