@@ -79,11 +79,13 @@ exports.submitCase = (req, res, next) => {
   caseSubmit.save()
     .then(data => {
       console.log(req.body.userEmail)
-      transport.sendMail({
-        to: userEmail,
-        from: 'n.n_sultan@hotmail.com',
-        subject: 'Attention!',
-        html: `
+      if (userEmail !== '') {
+        console.log('email sent')
+        transport.sendMail({
+          to: userEmail,
+          from: 'n.n_sultan@hotmail.com',
+          subject: 'Attention!',
+          html: `
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html style="width:100%;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0;">
  <head> 
@@ -336,7 +338,8 @@ a[x-apple-data-detectors] {
  </body>
 </html>
 `
-      })
+        })
+      }
       return data;
     })
     .then(data => {

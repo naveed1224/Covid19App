@@ -7,6 +7,7 @@ const csrf = require('csurf');
 //fetching routes
 const mainPageRoutes = require('./routes/mainpage');
 const caseRoutes = require('./routes/casesRoutes')
+const notifyRoutes = require('./routes/notifyRoute')
 
 const MONGODB_URI = 'mongodb+srv://Naveed:Bismillah4321@cluster0-7cieb.mongodb.net/covid19App?retryWrites=true&w=majority';
 
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 //parsing the routes
 app.use(mainPageRoutes);
 app.use('/case', caseRoutes);
+app.use('/email', notifyRoutes);
 
 mongoose.connect(MONGODB_URI, {
         useUnifiedTopology: true,
