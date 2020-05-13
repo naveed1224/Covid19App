@@ -116,6 +116,7 @@
         <div id="map"></div>
     </div>
 
+
     <%- include('../includes/end.ejs') %>
     <script>
         var placeSearch, autocomplete;
@@ -174,6 +175,22 @@
         }
 
         //--------------------------------------------
+        // function renderCases(url) {
+        //     return results = fetch(url, {
+        //             method: 'GET',
+        //             headers: {
+        //                 headers: {
+        //                     'Content-Type': 'application/json'
+        //                 }
+        //             }
+        //         })
+        //         .then(result => {
+        //             return result;
+        //         })
+        //         .catch(err => {
+        //             console.log(err)
+        //         })
+        // }
 
 
         function initAutocomplete() {
@@ -184,6 +201,35 @@
                 document.getElementById('autocomplete'), {
                     types: ['geocode']
                 });
+            //'http://localhost:3000/case/viewCases'
+
+            // renderCases('http://localhost:3000/case/viewCases')
+            //     .then(cases => {
+            //         console.log(cases)
+            //     })
+
+            // fetch('http://localhost:3000/case/viewCases', {
+            //         method: 'GET',
+            //         headers: {
+            //             headers: {
+            //                 'Content-Type': 'application/json'
+            //             }
+            //         }
+            //     })
+            //     .then(response => {
+            //         return response.json();
+            //     })
+            //     .then(data => {
+            //         var marker = new google.maps.Marker({
+            //             position: {lat: -25.363, lng: 131.044},
+            //             map: map,
+            //             title: 'Hello World!'
+            //             });
+            //         console.log(data)
+            //     })
+            //     .catch(err => {
+            //         console.log(err)
+            //     })
 
             // Avoid paying for data that you don't need by restricting the set of
             // place fields that are returned to just the address components.
@@ -243,11 +289,11 @@
                 if (places.length == 0) {
                     return;
                 }
-
+                //uncomment -->
                 // Clear out the old markers.
-                markers.forEach(function (marker) {
-                    marker.setMap(null);
-                });
+                // markers.forEach(function (marker) {
+                //     marker.setMap(null);
+                // });
                 markers = [];
 
                 // For each place, get the icon, name and location.
@@ -267,12 +313,12 @@
                     };
 
                     // Create a marker for each place.
-                    markers.push(new google.maps.Marker({
-                        map: map,
-                        icon: icon,
-                        title: place.name,
-                        position: place.geometry.location
-                    }));
+                    // markers.push(new google.maps.Marker({
+                    //     map: map,
+                    //     icon: icon,
+                    //     title: place.name,
+                    //     position: place.geometry.location
+                    // }));
 
                     if (place.geometry.viewport) {
                         // Only geocodes have viewport.
@@ -283,6 +329,56 @@
                 });
                 map.fitBounds(bounds);
             });
+
+            fetch('http://localhost:3000/case/viewCases', {
+                    method: 'GET',
+                    headers: {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                })
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    var x;
+
+                    for (x in data.cases) {
+                        var infowindow = new google.maps.InfoWindow();
+                        console.log(data.cases[x].lat)
+                        console.log(data.cases[x].lng)
+                        var marker = new google.maps.Marker({
+                            position: {
+                                lat: data.cases[x].lat,
+                                lng: data.cases[x].lng
+                            },
+                            map: map,
+                            title: data.cases[x].createdAt
+                        });
+                        marker.addListener('mouseover', function () {
+                            infowindow.setContent(`
+                        <div id="content">
+                            <div id="siteNotice">
+                         </div>
+                                <h4 id="firstHeading" class="firstHeading">Anonymous Case</h4>
+                                <div id="bodyContent">
+                                    <p><b>Case Type: </b>Anonymous Submission</p>
+                                    <p><b>Date Created: </b>${this.title}</p>
+                                </div>
+                            </div>
+                            `);
+                            infowindow.open(map, this);
+                        });
+                    }
+                    console.log(data)
+                    console.log(data.cases)
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+
 
             var center;
 

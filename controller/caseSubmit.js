@@ -9,53 +9,52 @@ let uuidToken;
 
 const transport = nodeMailer.createTransport(sendGrid({
   auth: {
-    api_key: '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'
+    api_key: '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'
   }
 }));
 
 
 exports.renderCases = (req, res, next) => {
   CasesModel.find()
-    .then(result => {
-      console.log(result)
-      res.render('mainPage/renderCases', {
-        data: result
+    .then(cases => {
+      res.status(200).json({
+        message: "successfully reached the API",
+        cases: cases
       })
+      //console.log(cases);
+    })
+    .catch(err => {
+      console.log(err)
     })
 }
 
+exports.renderCasesPage = (req, res, next) => {
+  res.render('mainPage/renderCases');
+}
+
 exports.DeleteCase = (req, res, next) => {
-  console.log(req.params)
-  console.log(req.params.uuid)
   const uuid_param = req.params.uuid
   CasesModel.findOneAndDelete({
       uuid: uuid_param
     })
     .then(result => {
-      console.log(result)
       if (result) {
         res.render('mainPage/caseDelete', {
           message: "Successfully Deleted your case, Case ID#: ",
           uuid: uuid_param,
           status: "Delete Successful"
         });
-        console.log('Deleted case')
       } else {
         res.render('mainPage/caseDelete', {
           message: "Failed to delete your case, you may have provided the wrong Case #ID. Please reach out to us for further support.",
           uuid: uuid_param,
           status: "Delete Failed!"
         });
-        console.log('Delete Failed')
       }
     })
     .catch(err => {
       console.log(err)
     })
-  // res.render('mainPage/caseDelete', {
-  //   uuid: res.params.uuid
-  // });
-  // console.log('Deleted case');
 }
 
 

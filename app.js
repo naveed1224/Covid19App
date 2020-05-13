@@ -8,6 +8,7 @@ const csrf = require('csurf');
 const mainPageRoutes = require('./routes/mainpage');
 const caseRoutes = require('./routes/casesRoutes')
 const notifyRoutes = require('./routes/notifyRoute')
+const cron = require("node-cron");
 
 const MONGODB_URI = 'mongodb+srv://Naveed:Bismillah4321@cluster0-7cieb.mongodb.net/covid19App?retryWrites=true&w=majority';
 
@@ -46,6 +47,16 @@ app.use((req, res, next) => {
 app.use(mainPageRoutes);
 app.use('/case', caseRoutes);
 app.use('/email', notifyRoutes);
+
+//cron backend job
+cron.schedule("* * * * *", function () {
+    console.log("running a task every minute");
+    //check database new cases in last hour
+
+    //get all users within a specific location
+
+    //send text message to all those people
+});
 
 mongoose.connect(MONGODB_URI, {
         useUnifiedTopology: true,

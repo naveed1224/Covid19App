@@ -41,16 +41,39 @@ const notifyUser = () => {
             })
             .then(data => {
                 console.log(data)
-                UIkit.modal("#modal-group-2").hide();
-                UIkit.notification({
-                    message: '<span uk-icon=\'icon: check\'></span> Anonymous Email Sent!',
-                    status: 'success'
-                });
+                if (data.status === 'duplicate') {
+                    console.log(data)
+                    console.log('duplicate Detected');
+                    UIkit.modal("#modal-group-2").hide();
+                    emailInform.value = '';
+                    emailInformBody.value = '';
+                    UIkit.notification({
+                        message: `<span uk-icon=\'icon: close\'></span> ${data.data.email} has already been informed.`,
+                        status: 'danger'
+                    });
+                } else {
+                    console.log('no duplicate found')
+                    console.log(data)
+                    UIkit.modal("#modal-group-2").hide();
+                    emailInform.value = '';
+                    emailInformBody.value = '';
+                    UIkit.notification({
+                        message: '<span uk-icon=\'icon: check\'></span> Anonymous Email Sent!',
+                        status: 'success'
+                    });
+                }
             })
             .catch(err => {
                 console.log(err)
             })
+    } else {
+        UIkit.notification({
+            message: '<span uk-icon=\'icon: close\'></span> Please enter email.',
+            status: 'danger'
+        });
     }
+    console.log('response below');
+    console.log(response_code)
 }
 
 

@@ -11,8 +11,7 @@ const caseSchema = new Schema({
         required: true
     },
     description: {
-        type: String,
-        required: true
+        type: String
     },
     // email: { // not storing email for privacy
     //     type: String,
