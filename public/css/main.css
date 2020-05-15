@@ -103,6 +103,7 @@
  }
 
  #locationField,
+ #locationField2,
  #controls {
      position: relative;
      width: 92%;
@@ -111,6 +112,17 @@
  }
 
  #autocomplete {
+     position: absolute;
+     top: 0px;
+     left: 0px;
+     width: 100%;
+     font-size: 18px;
+     font-weight: 300;
+     margin-bottom: 10rem;
+
+ }
+
+ #autocomplete2 {
      position: absolute;
      top: 0px;
      left: 0px;
@@ -153,6 +165,11 @@
  }
 
  #locationField {
+     height: 20px;
+     margin-bottom: 2px;
+ }
+
+ #locationField2 {
      height: 20px;
      margin-bottom: 2px;
  }

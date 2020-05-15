@@ -32,37 +32,63 @@
                 </div>
 
                 <form class="uk-grid-small" uk-grid action="http://localhost:3000/case/case-create" method="POST">
+                    <span class="uk-label">Case Address</span>
                     <div class="uk-width-1-1">
                         <div id="custom-search-input">
                             <div class="input-group">
                                 <div id="locationField">
-                                    <input id="autocomplete" placeholder="Enter case address(Autocomplete Enabled)"
-                                        type="text" />
+                                    <input class="autoaddress" id="autocomplete"
+                                        placeholder="Enter case address(Autocomplete Enabled)" type="text" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="uk-width-1-2@s">
-                        <input id="lat__case_submit" class="uk-input uk-form-width-medium" type="text"
-                            placeholder="Lat">
-                    </div>
-                    <div class="uk-width-1-2@s">
-                        <input id="lng__case_submit" class="uk-input uk-form-width-medium" type="text"
-                            placeholder="lng">
-                    </div>
-                    <!-- <div class="uk-margin">
-                        <input class="uk-input uk-form-width-large" type="text" placeholder="Enter any title">
-                    </div> -->
                     <div class="uk-margin" style="margin-bottom: 0px;">
                         <div class="uk-inline">
-                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
-                            <input id="email__case" class="uk-input uk-form-width-large" type="email">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input id="neigbborhood__case__name" class="uk-input uk-form-width-large" type="text"
+                                placeholder="Neibhorhood Autocomplete Enabled">
+                        </div>
+                    </div>
+                    <div class="uk-margin" style="margin-bottom: 0px;">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input id="lat__case_submit" class="uk-input uk-form-width-large" type="text"
+                                placeholder="Autocomplete Enabled Lat">
                         </div>
                     </div>
                     <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input id="lng__case_submit" class="uk-input uk-form-width-large" type="text"
+                                placeholder="Autocomplete Enabled lng">
+                        </div>
+                    </div>
+                    <!-- <div class="uk-width-1-2@s">
+                        <input id="lat__case_submit" class="uk-input uk-form-width-medium" type="text"
+                            placeholder="Autocomplete Enabled Lat">
+                    </div>
+                    <div class="uk-width-1-2@s">
+                        <input id="lng__case_submit" class="uk-input uk-form-width-medium" type="text"
+                            placeholder="Autocomplete Enabled lng">
+                    </div> -->
+
+                    <!-- <div class="uk-margin">
+                        <input class="uk-input uk-form-width-large" type="text" placeholder="Enter any title">
+                    </div> -->
+                    <span class="uk-label">Email Confirmation</span>
+                    <div class="uk-margin" style="margin-bottom: 0px;">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                            <input id="email__case" class="uk-input uk-form-width-large" type="email"
+                                placeholder="Enter Email.">
+                        </div>
+                    </div>
+
+                    <!-- <div class="uk-margin" style="margin-top: 0px;">
                         <textarea id="case__description" class="uk-textarea uk-form-width-large" rows="5"
                             placeholder="Please provide a description"></textarea>
-                    </div>
+                    </div> -->
                     <!-- <input id="lat__case_submit" type="text" value="">
                     <input id="lng__case_submit" type="text" value=""> -->
             </div>
@@ -101,6 +127,73 @@
             <div class="uk-modal-footer uk-text-right">
                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
                 <button id="email__inform__send" class="uk-button uk-button-primary" type="button">Send</button>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-group-3" uk-modal>
+        <div class="uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header">
+                <h4 class="uk-modal-title">Case notifications Signup</h4>
+            </div>
+            <div class="uk-modal-body">
+                <div class="uk-alert-warning" uk-alert>
+                    <a class="uk-alert-close" uk-close></a>
+                    <p>Please check your spam if you do not see an email.</p>
+                </div>
+
+                <form action="">
+                    <span class="uk-label uk-label-danger">Email Confirmation Required</span>
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                            <input id="email__signup__address" class="uk-input uk-form-width-large" type="email">
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: receiver"></span>
+                            <input id="phone__signup__address" class="uk-input uk-form-width-large" type="email">
+                        </div>
+                    </div>
+                    <span class="uk-label uk-label-danger">Location Details Required</span>
+
+                    <div class="uk-width-1-1" style="margin-top: 20px;">
+                        <div id="custom-search-input2">
+                            <div class="input-group2">
+                                <div id="locationField2">
+                                    <input class="autoaddress" id="autocomplete"
+                                        placeholder="Enter address - Autocomplete Enabled" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px">
+                        <span class="uk-label uk-label-danger">Only City and Neihborhood details stored</span>
+                    </div>
+
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input id="neibhorhood__signup__address" class="uk-input uk-form-width-large" type="text"
+                                placeholder="neighborhood - Autopopulate" disabled>
+                        </div>
+                    </div>
+                    <div class="uk-margin">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <!-- <input id="city__signup__address" class="uk-input uk-form-width-large" type="email"
+                                placeholder="City - Autopopulate"> -->
+                            <input id="city__signup__address" class="uk-input uk-form-width-large" type="text"
+                                placeholder="City - Autopopulate" disabled>
+                        </div>
+                    </div>
+            </div>
+            <div class="uk-modal-footer uk-text-right">
+                <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                <button id="email__signup__send" class="uk-button uk-button-primary" type="button">Signup</button>
             </div>
             </form>
         </div>
@@ -174,102 +267,127 @@
             }
         }
 
-        //--------------------------------------------
-        // function renderCases(url) {
-        //     return results = fetch(url, {
-        //             method: 'GET',
-        //             headers: {
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 }
-        //             }
-        //         })
-        //         .then(result => {
-        //             return result;
-        //         })
-        //         .catch(err => {
-        //             console.log(err)
-        //         })
-        // }
-
 
         function initAutocomplete() {
-            // ---------------------
+            var lat;
+            var lng;
+            navigator.geolocation.getCurrentPosition((position) => lat = position.coords.latitude)
+            navigator.geolocation.getCurrentPosition((position) => lat = position.coords.longitude)
+            console.log(lat)
+            console.log(lng)
+
+            var input = document.getElementsByClassName('autoaddress');
+
+            for (var x = 0; x < input.length; x++) {
+                addListener(input[x]);
+            }
+
+            function addListener(el) {
+                var autocomplete = new google.maps.places.Autocomplete(el);
+
+                google.maps.event.addListener(autocomplete, 'place_changed', function () {
+                    var modalopen1 = document.getElementById('modal-group-1')
+                    var modalopen3 = document.getElementById('modal-group-3')
+                    // Do whatever you want in here e.g.
+                    var place = autocomplete.getPlace();
+                    let lat = place.geometry.location.lat();
+                    let lng = place.geometry.location.lng();
+                    if (modalopen1.className.split(" ")[1] === 'uk-open') {
+                        document.getElementById("lat__case_submit").value = lat;
+                        document.getElementById("lng__case_submit").value = lng;
+                        console.log(lat + " - " + lng);
+                    }
+                    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDwnOhxGhY8GyY4qUbVcsPu9TMNEOcKM_U`, {
+                            method: "POST"
+                        })
+                        .then(result => {
+                            return result.json()
+                        })
+                        .then(result => {
+                            var neibhorhood_address = document.getElementById(
+                                'neibhorhood__signup__address')
+                            var city_address = document.getElementById(
+                                'city__signup__address')
+                            console.log(result)
+                            console.log(result.results[0].address_components)
+                            for (var x in result.results[0].address_components) {
+                                console.log(result.results[0].address_components[x])
+                                if (result.results[0].address_components[x].types[0] === 'neighborhood') {
+                                    neibhorhood_address.value = result.results[0].address_components[x]
+                                        .long_name
+                                    console.log(result.results[0].address_components[x].types[0])
+                                }
+                                if (result.results[0].address_components[x].types[0] === 'locality') {
+                                    city_address.value = result.results[0].address_components[x]
+                                        .long_name
+                                }
+                            }
+                        })
+
+                });
+            }
+
+
             // Create the autocomplete object, restricting the search predictions to
             // geographical location types.
-            autocomplete = new google.maps.places.Autocomplete(
-                document.getElementById('autocomplete'), {
-                    types: ['geocode']
-                });
-            //'http://localhost:3000/case/viewCases'
+            // try {
+            //     autocomplete = new google.maps.places.Autocomplete(
+            //         document.getElementById('autocomplete'), {
+            //             types: ['geocode']
+            //         });
+            // } catch (err) {
+            //     console.log(err)
+            // }
+            // // Avoid paying for data that you don't need by restricting the set of
+            // // place fields that are returned to just the address components.
+            // try {
+            //     autocomplete.setFields(['address_component', 'geometry']);
 
-            // renderCases('http://localhost:3000/case/viewCases')
-            //     .then(cases => {
-            //         console.log(cases)
-            //     })
-
-            // fetch('http://localhost:3000/case/viewCases', {
-            //         method: 'GET',
-            //         headers: {
-            //             headers: {
-            //                 'Content-Type': 'application/json'
-            //             }
-            //         }
-            //     })
-            //     .then(response => {
-            //         return response.json();
-            //     })
-            //     .then(data => {
-            //         var marker = new google.maps.Marker({
-            //             position: {lat: -25.363, lng: 131.044},
-            //             map: map,
-            //             title: 'Hello World!'
-            //             });
-            //         console.log(data)
-            //     })
-            //     .catch(err => {
-            //         console.log(err)
-            //     })
-
-            // Avoid paying for data that you don't need by restricting the set of
-            // place fields that are returned to just the address components.
-            autocomplete.setFields(['address_component', 'geometry']);
-
-            // When the user selects an address from the drop-down, populate the
-            // address fields in the form.
-            autocomplete.addListener('place_changed', () => {
-                var place = this.autocomplete.getPlace();
-                let lat = place.geometry.location.lat();
-                let lng = place.geometry.location.lng();
-                document.getElementById("lat__case_submit").value = lat;
-                document.getElementById("lng__case_submit").value = lng;
-                console.log(lat + " - " + lng);
-            });
-            //autocomplete.addListener('place_changed', fillInAddress);
-            var place = autocomplete.getPlace();
-
+            //     // When the user selects an address from the drop-down, populate the
+            //     // address fields in the form.
+            //     autocomplete.addListener('place_changed', () => {
+            //         var place = this.autocomplete.getPlace();
+            //         let lat = place.geometry.location.lat();
+            //         let lng = place.geometry.location.lng();
+            //         document.getElementById("lat__case_submit").value = lat;
+            //         document.getElementById("lng__case_submit").value = lng;
+            //         console.log(lat + " - " + lng);
+            //     });
+            //     //autocomplete.addListener('place_changed', fillInAddress);
+            //     var place = autocomplete.getPlace();
+            // } catch (err) {
+            //     console.log(err)
+            // }
+            // for autocomplete durring signup
 
             // let lat = document.getElementById('lat').value = place.geometry.location.lat();
             // let lng = document.getElementById('lon').value = place.geometry.location.lng();
             // console.log(lat + " - " + lng);
 
             // ----------------------
+            try {
 
-            var map;
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {
-                    lat: -33.8688,
-                    lng: 151.2195
-                },
-                zoom: 13,
-                mapTypeId: 'roadmap',
-                mapTypeControl: false
-            });
-
+                var map;
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {
+                        lat: 43.5774294,
+                        lng: -79.5643868
+                    },
+                    zoom: 12,
+                    mapTypeId: 'roadmap',
+                    mapTypeControl: false
+                });
+            } catch (err) {
+                console.log(err)
+            }
             // Create the search box and link it to the UI element.
-            var input = document.getElementById('pac-input');
-            var searchBox = new google.maps.places.SearchBox(input);
-            map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+            try {
+                var input = document.getElementById('pac-input');
+                var searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+            } catch (err) {
+                console.log(err)
+            }
 
             // Bias the SearchBox results towards current map's viewport.
             map.addListener('bounds_changed', function () {
@@ -280,105 +398,98 @@
             var markers = [];
             // Listen for the event fired when the user selects a prediction and retrieve
             // more details for that place.
-            searchBox.addListener('places_changed', function () {
-                var places = searchBox.getPlaces();
-                console.log('hello')
-                console.log(places);
+            try {
+                searchBox.addListener('places_changed', function () {
+                    var places = searchBox.getPlaces();
+                    console.log('hello')
+                    console.log(places);
 
 
-                if (places.length == 0) {
-                    return;
-                }
-                //uncomment -->
-                // Clear out the old markers.
-                // markers.forEach(function (marker) {
-                //     marker.setMap(null);
-                // });
-                markers = [];
-
-                // For each place, get the icon, name and location.
-                var bounds = new google.maps.LatLngBounds();
-                places.forEach(function (place) {
-                    if (!place.geometry) {
-                        console.log("Returned place contains no geometry");
+                    if (places.length == 0) {
                         return;
                     }
 
-                    var icon = {
-                        url: place.icon,
-                        size: new google.maps.Size(71, 71),
-                        origin: new google.maps.Point(0, 0),
-                        anchor: new google.maps.Point(17, 34),
-                        scaledSize: new google.maps.Size(25, 25)
-                    };
+                    markers = [];
 
-                    // Create a marker for each place.
-                    // markers.push(new google.maps.Marker({
-                    //     map: map,
-                    //     icon: icon,
-                    //     title: place.name,
-                    //     position: place.geometry.location
-                    // }));
-
-                    if (place.geometry.viewport) {
-                        // Only geocodes have viewport.
-                        bounds.union(place.geometry.viewport);
-                    } else {
-                        bounds.extend(place.geometry.location);
-                    }
-                });
-                map.fitBounds(bounds);
-            });
-
-            fetch('http://localhost:3000/case/viewCases', {
-                    method: 'GET',
-                    headers: {
-                        headers: {
-                            'Content-Type': 'application/json'
+                    // For each place, get the icon, name and location.
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function (place) {
+                        if (!place.geometry) {
+                            console.log("Returned place contains no geometry");
+                            return;
                         }
-                    }
-                })
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    var x;
 
-                    for (x in data.cases) {
-                        var infowindow = new google.maps.InfoWindow();
-                        console.log(data.cases[x].lat)
-                        console.log(data.cases[x].lng)
-                        var marker = new google.maps.Marker({
-                            position: {
-                                lat: data.cases[x].lat,
-                                lng: data.cases[x].lng
-                            },
-                            map: map,
-                            title: data.cases[x].createdAt
-                        });
-                        marker.addListener('mouseover', function () {
-                            infowindow.setContent(`
-                        <div id="content">
-                            <div id="siteNotice">
-                         </div>
-                                <h4 id="firstHeading" class="firstHeading">Anonymous Case</h4>
-                                <div id="bodyContent">
-                                    <p><b>Case Type: </b>Anonymous Submission</p>
-                                    <p><b>Date Created: </b>${this.title}</p>
-                                </div>
+                        var icon = {
+                            url: place.icon,
+                            size: new google.maps.Size(71, 71),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(17, 34),
+                            scaledSize: new google.maps.Size(25, 25)
+                        };
+
+                        if (place.geometry.viewport) {
+                            // Only geocodes have viewport.
+                            bounds.union(place.geometry.viewport);
+                        } else {
+                            bounds.extend(place.geometry.location);
+                        }
+                    });
+                    map.fitBounds(bounds);
+                });
+            } catch (err) {
+                console.log(err)
+            }
+            try {
+                fetch('http://localhost:3000/case/viewCases', {
+                        method: 'GET',
+                        headers: {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        var x;
+
+                        for (x in data.cases) {
+                            var infowindow = new google.maps.InfoWindow();
+                            console.log(data.cases[x].lat)
+                            console.log(data.cases[x].lng)
+                            var marker = new google.maps.Marker({
+                                position: {
+                                    lat: data.cases[x].lat,
+                                    lng: data.cases[x].lng
+                                },
+                                map: map,
+                                title: data.cases[x].createdAt
+                            });
+                            marker.addListener('mouseover', function () {
+                                infowindow.setContent(`
+                            <div id="content">
+                                <div id="siteNotice">
                             </div>
-                            `);
-                            infowindow.open(map, this);
-                        });
-                    }
-                    console.log(data)
-                    console.log(data.cases)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-
-
+                                    <h4 id="firstHeading" class="firstHeading">Anonymous Case</h4>
+                                    <div id="bodyContent">
+                                        <p><b>Case Type: </b>Anonymous Submission</p>
+                                        <p><b>Date Created: </b>${this.title}</p>
+                                    </div>
+                                </div>
+                                `);
+                                infowindow.open(map, this);
+                            });
+                        }
+                        console.log(data)
+                        console.log(data.cases)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            } catch {
+                console.log(err)
+            }
 
             var center;
 

@@ -8,7 +8,11 @@ const csrf = require('csurf');
 const mainPageRoutes = require('./routes/mainpage');
 const caseRoutes = require('./routes/casesRoutes')
 const notifyRoutes = require('./routes/notifyRoute')
+const signRoutes = require('./routes/signupRoutes')
 const cron = require("node-cron");
+const accountSid = 'AC50430158c37f3e30943dc2f16350aa21';
+const authToken = 'e5e0a136a3e3841488b6a31c3f110a35';
+const client = require('twilio')(accountSid, authToken);
 
 const MONGODB_URI = 'mongodb+srv://Naveed:Bismillah4321@cluster0-7cieb.mongodb.net/covid19App?retryWrites=true&w=majority';
 
@@ -47,6 +51,7 @@ app.use((req, res, next) => {
 app.use(mainPageRoutes);
 app.use('/case', caseRoutes);
 app.use('/email', notifyRoutes);
+app.use('/notifications', signRoutes);
 
 //cron backend job
 cron.schedule("* * * * *", function () {
@@ -56,6 +61,14 @@ cron.schedule("* * * * *", function () {
     //get all users within a specific location
 
     //send text message to all those people
+
+    // client.messages
+    //     .create({
+    //         body: 'Sample message from covid 19 APP - Naveed every 1 minute',
+    //         from: '+12066874626',
+    //         to: '6478964962'
+    //     })
+    //     .then(message => console.log(message));
 });
 
 mongoose.connect(MONGODB_URI, {
