@@ -10,13 +10,18 @@ const caseSchema = new Schema({
         type: Number,
         required: true
     },
-    description: {
+    neighborhood: {
         type: String
     },
-    // email: { // not storing email for privacy
-    //     type: String,
-    //     required: true
-    // },
+    city: {
+        type: String
+    },
+    province: {
+        type: String
+    },
+    country: {
+        type: String
+    },
     uuid: {
         type: String,
         required: true

@@ -64,6 +64,10 @@ exports.submitCase = (req, res, next) => {
   const lng = req.body.lng;
   const userEmail = req.body.userEmail;
   const caseDescription = req.body.caseDescription;
+  const caseNeibhorhood = req.body.neighborhood;
+  const caseCity = req.body.city;
+  const caseProvince = req.body.province
+  const caseCountry = req.body.country;
 
   uuidToken = uuid();
 
@@ -71,12 +75,18 @@ exports.submitCase = (req, res, next) => {
     lat: lat,
     lng: lng,
     description: caseDescription,
-    uuid: uuidToken
+    uuid: uuidToken,
+    neighborhood: caseNeibhorhood,
+    city: caseCity,
+    province: caseProvince,
+    country: caseCountry
 
   })
 
   caseSubmit.save()
     .then(data => {
+      console.log('data saved')
+      console.log(data)
       console.log(req.body.userEmail)
       if (userEmail !== '') {
         console.log('email sent')

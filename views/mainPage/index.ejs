@@ -47,35 +47,45 @@
                         <div class="uk-inline">
                             <span class="uk-form-icon" uk-icon="icon: location"></span>
                             <input id="neigbborhood__case__name" class="uk-input uk-form-width-large" type="text"
-                                placeholder="Neibhorhood Autocomplete Enabled">
+                                placeholder="Neibhorhood Autocomplete Enabled" disabled>
+                        </div>
+                    </div>
+                    <div class="uk-margin" style="margin-bottom: 0px;">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input id="city__case__name" class="uk-input uk-form-width-large" type="text"
+                                placeholder="city Autocomplete Enabled" disabled>
+                        </div>
+                    </div>
+                    <div class="uk-margin" style="margin-bottom: 0px;">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input id="province__case__name" class="uk-input uk-form-width-large" type="text"
+                                placeholder="Province Autocomplete Enabled" disabled>
+                        </div>
+                    </div>
+                    <div class="uk-margin" style="margin-bottom: 0px;">
+                        <div class="uk-inline">
+                            <span class="uk-form-icon" uk-icon="icon: location"></span>
+                            <input id="country__case__name" class="uk-input uk-form-width-large" type="text"
+                                placeholder="country Autocomplete Enabled" disabled>
                         </div>
                     </div>
                     <div class="uk-margin" style="margin-bottom: 0px;">
                         <div class="uk-inline">
                             <span class="uk-form-icon" uk-icon="icon: location"></span>
                             <input id="lat__case_submit" class="uk-input uk-form-width-large" type="text"
-                                placeholder="Autocomplete Enabled Lat">
+                                placeholder="Lat Autocomplete Enabled" disabled>
                         </div>
                     </div>
                     <div class="uk-margin">
                         <div class="uk-inline">
                             <span class="uk-form-icon" uk-icon="icon: location"></span>
                             <input id="lng__case_submit" class="uk-input uk-form-width-large" type="text"
-                                placeholder="Autocomplete Enabled lng">
+                                placeholder="Lng Autocomplete Enabled" disabled>
                         </div>
                     </div>
-                    <!-- <div class="uk-width-1-2@s">
-                        <input id="lat__case_submit" class="uk-input uk-form-width-medium" type="text"
-                            placeholder="Autocomplete Enabled Lat">
-                    </div>
-                    <div class="uk-width-1-2@s">
-                        <input id="lng__case_submit" class="uk-input uk-form-width-medium" type="text"
-                            placeholder="Autocomplete Enabled lng">
-                    </div> -->
 
-                    <!-- <div class="uk-margin">
-                        <input class="uk-input uk-form-width-large" type="text" placeholder="Enter any title">
-                    </div> -->
                     <span class="uk-label">Email Confirmation</span>
                     <div class="uk-margin" style="margin-bottom: 0px;">
                         <div class="uk-inline">
@@ -85,12 +95,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="uk-margin" style="margin-top: 0px;">
-                        <textarea id="case__description" class="uk-textarea uk-form-width-large" rows="5"
-                            placeholder="Please provide a description"></textarea>
-                    </div> -->
-                    <!-- <input id="lat__case_submit" type="text" value="">
-                    <input id="lng__case_submit" type="text" value=""> -->
             </div>
             <div class="uk-modal-footer uk-text-right">
                 <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
@@ -184,8 +188,7 @@
                     <div class="uk-margin">
                         <div class="uk-inline">
                             <span class="uk-form-icon" uk-icon="icon: location"></span>
-                            <!-- <input id="city__signup__address" class="uk-input uk-form-width-large" type="email"
-                                placeholder="City - Autopopulate"> -->
+
                             <input id="city__signup__address" class="uk-input uk-form-width-large" type="text"
                                 placeholder="City - Autopopulate" disabled>
                         </div>
@@ -202,9 +205,83 @@
     <!-- <div class="spinner" id="spinner__main__parent">
         <span id="spinner__main" uk-spinner="ratio: 10"></span>
     </div> -->
+    <div class="uk-margin-left uk-margin-right ">
+        <ul uk-accordion>
+            <li class="uk-open">
+                <a class="uk-accordion-title" href="#">Case Stats</a>
+                <div class="uk-accordion-content">
+                    <div class="uk-margin">
+                        <center><a href="#" uk-icon="icon: refresh ; ratio: 1"
+                                uk-tooltip="title: Refresh Case Stats; pos: top"></a>
+                        </center>
+                    </div>
+                    <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid
+                        style="margin-bottom: 10px; margin-right: 10; margin-left: 10;">
+                        <div>
+                            <div class="uk-card uk-card-primary uk-card-hover">
+                                <div class="uk-card-header">
+                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
+                                </div>
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <center>
+                                        <h3>300</h3>
+                                    </center>
+                                </div>
+                                <div class="uk-card-footer"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-card uk-card-primary uk-card-hover">
+                                <div class="uk-card-header">
+                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
+                                </div>
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <center>
+                                        <h3>300</h3>
+                                    </center>
+                                </div>
+                                <div class="uk-card-footer"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-card uk-card-primary uk-card-hover">
+                                <div class="uk-card-header">
+                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
+                                </div>
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <center>
+                                        <h3>300</h3>
+                                    </center>
+                                </div>
+                                <div class="uk-card-footer"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="uk-card uk-card-primary uk-card-hover">
+                                <div class="uk-card-header">
+                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
+                                </div>
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <center>
+                                        <h3>300</h3>
+                                    </center>
+                                </div>
+                                <div class="uk-card-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
     <div id="__googleMapsFrontPage">
         <div>
-            <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+            <input id="pac-input" class="controls" type="text" placeholder="Search address">
         </div>
         <div id="map"></div>
     </div>
@@ -292,79 +369,82 @@
                     var place = autocomplete.getPlace();
                     let lat = place.geometry.location.lat();
                     let lng = place.geometry.location.lng();
+                    if (modalopen3.className.split(" ")[1] === 'uk-open') {
+                        console.log(lat + " - " + lng);
+                        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDwnOhxGhY8GyY4qUbVcsPu9TMNEOcKM_U`, {
+                                method: "POST"
+                            })
+                            .then(result => {
+                                return result.json()
+                            })
+                            .then(result => {
+                                var neibhorhood_address = document.getElementById(
+                                    'neibhorhood__signup__address')
+                                var city_address = document.getElementById(
+                                    'city__signup__address')
+                                console.log(result)
+                                console.log(result.results[0].address_components)
+                                for (var x in result.results[0].address_components) {
+                                    console.log(result.results[0].address_components[x])
+                                    if (result.results[0].address_components[x].types[0] ===
+                                        'neighborhood') {
+                                        neibhorhood_address.value = result.results[0].address_components[x]
+                                            .long_name
+                                        console.log(result.results[0].address_components[x].types[0])
+                                    }
+                                    if (result.results[0].address_components[x].types[0] === 'locality') {
+                                        city_address.value = result.results[0].address_components[x]
+                                            .long_name
+                                    }
+                                }
+                            })
+                    }
                     if (modalopen1.className.split(" ")[1] === 'uk-open') {
                         document.getElementById("lat__case_submit").value = lat;
                         document.getElementById("lng__case_submit").value = lng;
                         console.log(lat + " - " + lng);
+                        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDwnOhxGhY8GyY4qUbVcsPu9TMNEOcKM_U`, {
+                                method: "POST"
+                            })
+                            .then(result => {
+                                return result.json()
+                            })
+                            .then(result => {
+                                var city_address = document.getElementById("city__case__name")
+                                var neibhorhood_address = document.getElementById(
+                                    "neigbborhood__case__name")
+                                var province_address = document.getElementById(
+                                    "province__case__name")
+                                var country_address = document.getElementById(
+                                    "country__case__name")
+                                for (var x in result.results[0].address_components) {
+                                    console.log(result.results[0].address_components[x])
+                                    if (result.results[0].address_components[x].types[0] ===
+                                        'neighborhood') {
+                                        neibhorhood_address.value = result.results[0].address_components[x]
+                                            .long_name
+                                        console.log(result.results[0].address_components[x].types[0])
+                                    }
+                                    if (result.results[0].address_components[x].types[0] === 'locality') {
+                                        city_address.value = result.results[0].address_components[x]
+                                            .long_name
+                                    }
+                                    if (result.results[0].address_components[x].types[0] ===
+                                        '"administrative_area_level_1"') {
+                                        province_address.value = result.results[0].address_components[x]
+                                            .long_name
+                                    }
+                                    if (result.results[0].address_components[x].types[0] === 'country') {
+                                        country_address.value = result.results[0].address_components[x]
+                                            .long_name
+                                    }
+                                }
+                            })
                     }
-                    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDwnOhxGhY8GyY4qUbVcsPu9TMNEOcKM_U`, {
-                            method: "POST"
-                        })
-                        .then(result => {
-                            return result.json()
-                        })
-                        .then(result => {
-                            var neibhorhood_address = document.getElementById(
-                                'neibhorhood__signup__address')
-                            var city_address = document.getElementById(
-                                'city__signup__address')
-                            console.log(result)
-                            console.log(result.results[0].address_components)
-                            for (var x in result.results[0].address_components) {
-                                console.log(result.results[0].address_components[x])
-                                if (result.results[0].address_components[x].types[0] === 'neighborhood') {
-                                    neibhorhood_address.value = result.results[0].address_components[x]
-                                        .long_name
-                                    console.log(result.results[0].address_components[x].types[0])
-                                }
-                                if (result.results[0].address_components[x].types[0] === 'locality') {
-                                    city_address.value = result.results[0].address_components[x]
-                                        .long_name
-                                }
-                            }
-                        })
 
                 });
             }
 
-
-            // Create the autocomplete object, restricting the search predictions to
-            // geographical location types.
-            // try {
-            //     autocomplete = new google.maps.places.Autocomplete(
-            //         document.getElementById('autocomplete'), {
-            //             types: ['geocode']
-            //         });
-            // } catch (err) {
-            //     console.log(err)
-            // }
-            // // Avoid paying for data that you don't need by restricting the set of
-            // // place fields that are returned to just the address components.
-            // try {
-            //     autocomplete.setFields(['address_component', 'geometry']);
-
-            //     // When the user selects an address from the drop-down, populate the
-            //     // address fields in the form.
-            //     autocomplete.addListener('place_changed', () => {
-            //         var place = this.autocomplete.getPlace();
-            //         let lat = place.geometry.location.lat();
-            //         let lng = place.geometry.location.lng();
-            //         document.getElementById("lat__case_submit").value = lat;
-            //         document.getElementById("lng__case_submit").value = lng;
-            //         console.log(lat + " - " + lng);
-            //     });
-            //     //autocomplete.addListener('place_changed', fillInAddress);
-            //     var place = autocomplete.getPlace();
-            // } catch (err) {
-            //     console.log(err)
-            // }
-            // for autocomplete durring signup
-
-            // let lat = document.getElementById('lat').value = place.geometry.location.lat();
-            // let lng = document.getElementById('lon').value = place.geometry.location.lng();
-            // console.log(lat + " - " + lng);
-
-            // ----------------------
             try {
 
                 var map;
