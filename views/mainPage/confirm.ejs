@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('../includes/head.ejs') %>
+    <title>Covid Front End Project</title>
+</head>
+
+<body>
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="http://localhost:3000">Map</a></li>
+                <li class="uk-parent"><a href="http://localhost:3000/case/viewCasesPage">Anonymous Submissions</a></li>
+                <li class="uk-parent"><a href="">Privacy Policy</a></li>
+                <li class="uk-parent"><a href="">About Web App</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- <a class="uk-navbar-item uk-logo" href="#">Covid19 Response</a> -->
+
+    <!-- <div class="uk-navbar-right">
+        <ul class="uk-iconnav">
+            <li>
+                <a class="uk-button uk-button-primary" href=http://localhost:3000">Go Home</a> </li> </ul> </div>
+                    Navigation end
+
+    </div> -->
+    <div class="uk-alert-danger" uk-alert style="margin-top: 0px; margin-bottom: 0;">
+        <a class="uk-alert-close" uk-close></a>
+        <center>
+            <p>Please Visit Privacy Policy and About page for important information regarding this
+                Web App and our
+                Mission.
+            </p>
+        </center>
+    </div>
+
+    <div class="uk-container">
+        <span class="uk-label uk-label-<%= statusCategory %>"> <%= status %></span>
+        <div uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <h3>Notice</h3>
+            <p> <%= message %> <%= uuid %> </p>
+        </div>
+    </div>
+
+
+    <script src="/static/uikit-3.4.2/js/uikit.min.js"></script>
+    <script src="/static/uikit-3.4.2/js/uikit-icons.min.js"></script>
+    <script>
+        UIkit.modal("#modal-group-1");
+    </script>
+
+</body>
+
+</html>

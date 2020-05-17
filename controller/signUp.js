@@ -1,6 +1,7 @@
 const nodeMailer = require('nodemailer');
 const sendGrid = require('nodemailer-sendgrid-transport');
 const UserSignupModel = require('../models/signupModel');
+const mongoose = require('mongoose');
 const accountSid = 'AC50430158c37f3e30943dc2f16350aa21';
 const authToken = 'e5e0a136a3e3841488b6a31c3f110a35';
 const client = require('twilio')(accountSid, authToken);
@@ -14,21 +15,49 @@ const transport = nodeMailer.createTransport(sendGrid({
 exports.signUpConfirm = (req, res, next) => {
     console.log(req.params);
     console.log(req.query);
+    console.log(typeof (mongoose.Types.ObjectId(req.params.signupid)));
 
-    UserSignupModel.findById(req.params.signupid)
+
+    UserSignupModel.findOne({
+            _id: req.params.signupid,
+            confirmCode: parseInt(req.query.confirmCode)
+        })
         .then(result => {
-            result.status = true;
-            return result.save()
-                .then(result => {
-                    console.log(result)
-                    res.render('mainPage/caseDelete', {
-                        message: "Successfull Signup - ID#: ",
+            console.log(result)
+            // console.log(result.status)
+            if (result) {
+                if (result.status === "true") {
+                    res.render('mainPage/confirm', {
+                        message: "Already Signed Up - ID#: ",
                         uuid: result._id,
-                        status: "Sign Confirm Successful"
+                        status: "Duplicate Confirmation",
+                        statusCategory: "warning"
                     });
-                }).catch(err => {
-                    console.log(err);
-                })
+
+                } else {
+                    result.status = true;
+                    return result.save()
+                        .then(result => {
+                            console.log(result)
+                            res.render('mainPage/confirm', {
+                                message: "Successfull Signup - ID#: ",
+                                uuid: result._id,
+                                status: "Sign Confirm Successful",
+                                statusCategory: "success"
+                            });
+                        }).catch(err => {
+                            console.log(err);
+                        })
+                }
+
+            } else {
+                res.render('mainPage/confirm', {
+                    message: "Failed to confirm Signup, Confirmation ID: ",
+                    uuid: "Not Found",
+                    status: "Cofirm Failed",
+                    statusCategory: "danger"
+                });
+            }
         })
 }
 
@@ -39,11 +68,21 @@ exports.signUpDeleteConfirm = (req, res, next) => {
     UserSignupModel.findByIdAndDelete(req.params.signupid)
         .then(result => {
             console.log(result)
-            res.render('mainPage/caseDelete', {
-                message: "Successfully Deleted Text Messages Notifications Signup - ID#: . You will no longer Receive Text messages releated to cases in your region",
-                uuid: result._id,
-                status: "Signup notifications Delete Success"
-            });
+            if (result) {
+                res.render('mainPage/confirm', {
+                    message: "Successfully Deleted Text Messages Notifications Signup - You will no longer Receive Text messages releated to cases in your region - ID#: ",
+                    uuid: result._id,
+                    status: "Signup notifications Deleted",
+                    statusCategory: "danger"
+                });
+            } else {
+                res.render('mainPage/confirm', {
+                    message: "Could not find Signup Registery - you may have already deleted your signup Confirmation - ID found: ",
+                    uuid: "None",
+                    status: "Not Found",
+                    statusCategory: "warning"
+                });
+            }
         })
         .catch(err => {
             console.log(err)
@@ -86,7 +125,7 @@ exports.signupController = (req, res, next) => {
                         console.log(result);
                         client.messages
                             .create({
-                                body: `Click link to confirm your signup and receive Covid19 case notifications in your area: http://localhost:3000/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}`,
+                                body: `Click below to confirm your signup:\n http://localhost:3000/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}\n \nIf you no longer want to receive any notifications, click link below:\nhttp://localhost:3000/notifications/signup/confirmDelete/${result._id}?confirmCode=${signupConfirmCode}`,
                                 from: '+12066874626',
                                 to: `${result.phone}`
                             })
@@ -97,5 +136,4 @@ exports.signupController = (req, res, next) => {
                     })
             }
         })
-
 }

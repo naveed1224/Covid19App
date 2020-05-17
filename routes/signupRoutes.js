@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/signup', signupController.signupController);
 router.get('/signup/confirm/:signupid', signupController.signUpConfirm);
-router.get('/signup/deletenotifications/:signupid')
+router.get('/signup/confirmDelete/:signupid', signupController.signUpDeleteConfirm);
 
 module.exports = router;
