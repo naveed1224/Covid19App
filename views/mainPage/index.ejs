@@ -223,9 +223,9 @@
                                     <div class="uk-card-badge uk-label">updated: Just Now</div>
                                 </div>
                                 <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases on Site</h3>
                                     <center>
-                                        <h3>300</h3>
+                                        <h3>0</h3>
                                     </center>
                                 </div>
                                 <div class="uk-card-footer"></div>
@@ -237,9 +237,9 @@
                                     <div class="uk-card-badge uk-label">updated: Just Now</div>
                                 </div>
                                 <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <h3 class="uk-card-title uk-text-center"> Cases in last 1 month on Site</h3>
                                     <center>
-                                        <h3>300</h3>
+                                        <h3>0</h3>
                                     </center>
                                 </div>
                                 <div class="uk-card-footer"></div>
@@ -251,9 +251,9 @@
                                     <div class="uk-card-badge uk-label">updated: Just Now</div>
                                 </div>
                                 <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <h3 class="uk-card-title uk-text-center">Cases in last 2 Weeks on Site</h3>
                                     <center>
-                                        <h3>300</h3>
+                                        <h3>0</h3>
                                     </center>
                                 </div>
                                 <div class="uk-card-footer"></div>
@@ -265,9 +265,9 @@
                                     <div class="uk-card-badge uk-label">updated: Just Now</div>
                                 </div>
                                 <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases</h3>
+                                    <h3 class="uk-card-title uk-text-center">Cases in last 24 Hours on Site</h3>
                                     <center>
-                                        <h3>300</h3>
+                                        <h3>0</h3>
                                     </center>
                                 </div>
                                 <div class="uk-card-footer"></div>
@@ -418,7 +418,6 @@
                                 var country_address = document.getElementById(
                                     "country__case__name")
                                 for (var x in result.results[0].address_components) {
-                                    console.log(result.results[0].address_components[x])
                                     if (result.results[0].address_components[x].types[0] ===
                                         'neighborhood') {
                                         neibhorhood_address.value = result.results[0].address_components[x]
@@ -430,9 +429,11 @@
                                             .long_name
                                     }
                                     if (result.results[0].address_components[x].types[0] ===
-                                        '"administrative_area_level_1"') {
+                                        "administrative_area_level_1") {
                                         province_address.value = result.results[0].address_components[x]
                                             .long_name
+                                        console.log(result.results[0].address_components[x]
+                                            .long_name)
                                     }
                                     if (result.results[0].address_components[x].types[0] === 'country') {
                                         country_address.value = result.results[0].address_components[x]

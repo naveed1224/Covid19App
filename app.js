@@ -6,14 +6,20 @@ const session = require('express-session');
 const csrf = require('csurf');
 //fetching routes
 const mainPageRoutes = require('./routes/mainpage');
-const caseRoutes = require('./routes/casesRoutes')
-const notifyRoutes = require('./routes/notifyRoute')
-const signRoutes = require('./routes/signupRoutes')
+const caseRoutes = require('./routes/casesRoutes');
+const notifyRoutes = require('./routes/notifyRoute');
+const signRoutes = require('./routes/signupRoutes');
+const covid19APIRoutes = require('./routes/covid19API');
+
+//cron backgroud job
 const cron = require("node-cron");
+
+//twilio account connection setup
 const accountSid = 'AC50430158c37f3e30943dc2f16350aa21';
 const authToken = 'e5e0a136a3e3841488b6a31c3f110a35';
 const client = require('twilio')(accountSid, authToken);
 
+//daravase connection
 const MONGODB_URI = 'mongodb+srv://Naveed:Bismillah4321@cluster0-7cieb.mongodb.net/covid19App?retryWrites=true&w=majority';
 
 const app = express();
@@ -52,6 +58,7 @@ app.use(mainPageRoutes);
 app.use('/case', caseRoutes);
 app.use('/email', notifyRoutes);
 app.use('/notifications', signRoutes);
+app.use('/API', covid19APIRoutes);
 
 //cron backend job
 cron.schedule("* * * * *", function () {
