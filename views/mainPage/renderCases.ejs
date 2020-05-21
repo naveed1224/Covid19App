@@ -45,24 +45,31 @@
                 <div class="uk-margin">
                     <div class="uk-inline">
                         <span class="uk-form-icon" uk-icon="icon: search"></span>
-                        <input class="uk-input uk-form-width-large" type="text">
+                        <input id="search__input__query" class="uk-input uk-form-width-large" type="text"
+                            placeholder="Select search Type and enter Search Query">
                     </div>
                 </div>
             </div>
             <div class="uk-width-1-4@s">
-                <div class="uk-form-controls">
-                    <select class="uk-select" id="form-horizontal-select">
-                        <option>Select Area to Search</option>
-                        <option>Country</option>
-                        <option>Province</option>
-                        <option>City</option>
-                        <option>Neighborhood</option>
-                        <option>ID</option>
-                    </select>
+                <div class="uk-margin">
+                    <div uk-form-custom="target: > * > span:first-child">
+                        <select id="form__select__search">
+                            <option value="">Please select...</option>
+                            <option value="1">Country</option>
+                            <option value="2">Province</option>
+                            <option value="3">City</option>
+                            <option value="4">Neighborhood</option>
+                        </select>
+                        <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                            <span id="search__Type__selected__option"></span>
+                            <span uk-icon="icon: chevron-down"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="uk-width-1-4@s">
-                <button class="uk-button uk-button-default" type="button" tabindex="-1">Search Results</button>
+                <button id="case__search__query__button" class="uk-button uk-button-default" type="button"
+                    tabindex="-1">Get Search Results</button>
             </div>
         </form>
 

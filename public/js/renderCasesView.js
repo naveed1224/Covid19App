@@ -1,6 +1,12 @@
 const nextPage = document.getElementById('page__case__next');
 const previousPage = document.getElementById('page__case__previous');
+const searchTypeSelect = document.getElementById('form__select__search');
+const searchQueryInput = document.getElementById('search__input__query');
+const searchButton = document.getElementById('case__search__query__button');
+let searchButtonCheck = false;
 let url, method;
+
+let globalState = {};
 
 const renderCaseMarkup = cases => {
     let searchResults;
@@ -27,14 +33,19 @@ const renderCaseMarkup = cases => {
 }
 
 const renderingResults = cases => {
-    console.log(cases.data.length)
+    console.log(cases.data)
 
-    if (cases.data.length === 0) {
+    if (!cases.data) {
         renderCaseMarkup(-1)
     } else {
-        for (let data of cases.data) {
-            renderCaseMarkup(data)
+        if (cases.data.length === 0) {
+            renderCaseMarkup(-1)
+        } else {
+            for (let data of cases.data) {
+                renderCaseMarkup(data)
+            }
         }
+
     }
 }
 
@@ -106,6 +117,10 @@ const pageCaseController = async (pageType) => {
     try {
         const spinnerDOM = document.getElementById('case_results_spinner');
         let cases = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults?page=${pageNumber}`, 'POST');
+        //fixed page limit issue
+        if (pageNumber > Math.round(parseInt(cases.totalCases) / parseInt(cases.perPage))) {
+            currentPageNumber.value = String(pageNumber - 1);
+        }
 
         //rendering cases on page
         renderingResults(cases);
@@ -121,14 +136,110 @@ const pageCaseController = async (pageType) => {
 
 }
 
+const SearchFunctionalityController = async (pageType, searchQueryInput, searchTypeSelect) => {
+    console.log(`search Queries being sent, ${searchQueryInput} - ${searchTypeSelect}`)
+    let pageNumber;
+
+    // clear results
+    clearExistingResults();
+
+    //render spinner again
+    const spinner = '<center><span id="case_results_spinner" class="uk-margin-small uk-position-center" uk-spinner="ratio: 3"></span></center>'
+    document.getElementById('caseResults').insertAdjacentHTML('beforeend', spinner)
+
+    let currentPageNumber = document.getElementById('case__page');
+
+    if (pageType === null) {
+        pageNumber = 1;
+    } else {
+        if (pageType === 'next') {
+            pageNumber = parseInt(currentPageNumber.value) + 1
+            console.log(pageNumber);
+        }
+
+        if (pageType === 'back') {
+            if (parseInt(currentPageNumber.value) === 1) {
+                pageNumber = 1;
+            } else {
+                pageNumber = parseInt(currentPageNumber.value) - 1;
+            }
+            console.log(pageNumber);
+        }
+    }
+
+    //updating current page number
+    currentPageNumber.value = String(pageNumber);
+
+    //render results
+    try {
+        const spinnerDOM = document.getElementById('case_results_spinner');
+
+        let cases = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/searchQuery/?searchQueryText=${searchQueryInput.value}&SearchQueryType=${searchTypeSelect.value}&page=${pageNumber}`, 'POST');
+        //fixed page limit issue
+        if (pageNumber > Math.round(parseInt(cases.totalCases) / parseInt(cases.perPage))) {
+            currentPageNumber.value = String(pageNumber - 1);
+        }
+
+        //rendering cases on page
+        renderingResults(cases);
+
+
+        //clear spinner
+        if (spinnerDOM) {
+            spinnerDOM.parentElement.removeChild(spinnerDOM);
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const queryIntentParse = (searchQuery, searchQuerySelect, globalState) => {
+    console.log(searchQuery)
+    console.log(searchQuerySelect)
+    if (searchQuery === '' || searchQuerySelect === '') {
+        return globalState.searchButtonCheck = false;
+    } else {
+        return globalState.searchButtonCheck = true;
+    }
+}
+
+//rendering cases on Page Load
 controllCaseResults();
 
-nextPage.addEventListener('click', e => {
+
+searchButton.addEventListener('click', e => {
     e.preventDefault();
-    pageCaseController("next");
+    queryIntentParse(searchTypeSelect.value, searchQueryInput.value, globalState);
+    SearchFunctionalityController(null, searchQueryInput, searchTypeSelect);
+    console.log(globalState)
+})
+console.log(globalState.searchButtonCheck);
+
+
+nextPage.addEventListener('click', e => {
+    if (globalState.searchButtonCheck === true) {
+        e.preventDefault();
+        SearchFunctionalityController("next", searchQueryInput, searchTypeSelect);
+        console.log(globalState.searchButtonCheck);
+    } else {
+        e.preventDefault();
+        pageCaseController("next");
+        console.log(globalState.searchButtonCheck);
+    }
 })
 
+
 previousPage.addEventListener('click', e => {
-    e.preventDefault();
-    pageCaseController("back");
+    if (globalState.searchButton === true) {
+        e.preventDefault();
+        SearchFunctionalityController("back", searchQueryInput, searchTypeSelect);
+        console.log(globalState.searchButtonCheck);
+    } else {
+        e.preventDefault();
+        pageCaseController("back");
+        console.log(globalState.searchButtonCheck);
+    }
 })
+
+
+//user clicked search button with filter and text
