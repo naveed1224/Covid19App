@@ -211,68 +211,12 @@
                 <a class="uk-accordion-title" href="#">Case Stats</a>
                 <div class="uk-accordion-content">
                     <div class="uk-margin">
-                        <center><a href="#" uk-icon="icon: refresh ; ratio: 1"
+                        <center><a id="case__refresh__stats__button" href="#" uk-icon="icon: refresh ; ratio: 1"
                                 uk-tooltip="title: Refresh Case Stats; pos: top"></a>
                         </center>
                     </div>
-                    <div class="uk-child-width-1-4@m uk-grid-small uk-grid-match" uk-grid
-                        style="margin-bottom: 10px; margin-right: 10; margin-left: 10;">
-                        <div>
-                            <div class="uk-card uk-card-primary uk-card-hover">
-                                <div class="uk-card-header">
-                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
-                                </div>
-                                <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center"> Total Anonymous Cases on Site</h3>
-                                    <center>
-                                        <h3>0</h3>
-                                    </center>
-                                </div>
-                                <div class="uk-card-footer"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-card uk-card-primary uk-card-hover">
-                                <div class="uk-card-header">
-                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
-                                </div>
-                                <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center"> Cases in last 1 month on Site</h3>
-                                    <center>
-                                        <h3>0</h3>
-                                    </center>
-                                </div>
-                                <div class="uk-card-footer"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-card uk-card-primary uk-card-hover">
-                                <div class="uk-card-header">
-                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
-                                </div>
-                                <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center">Cases in last 2 Weeks on Site</h3>
-                                    <center>
-                                        <h3>0</h3>
-                                    </center>
-                                </div>
-                                <div class="uk-card-footer"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="uk-card uk-card-primary uk-card-hover">
-                                <div class="uk-card-header">
-                                    <div class="uk-card-badge uk-label">updated: Just Now</div>
-                                </div>
-                                <div class="uk-card-body">
-                                    <h3 class="uk-card-title uk-text-center">Cases in last 24 Hours on Site</h3>
-                                    <center>
-                                        <h3>0</h3>
-                                    </center>
-                                </div>
-                                <div class="uk-card-footer"></div>
-                            </div>
-                        </div>
+                    <div id="case__stats__results">
+
                     </div>
                 </div>
             </li>
@@ -308,7 +252,7 @@
 
             let lat = place.geometry.location.lat();
             let lng = place.geometry.location.lng();
-            console.log(lat + " - " + lng);
+
 
             for (var component in componentForm) {
                 document.getElementById(component).value = '';
@@ -350,8 +294,7 @@
             var lng;
             navigator.geolocation.getCurrentPosition((position) => lat = position.coords.latitude)
             navigator.geolocation.getCurrentPosition((position) => lat = position.coords.longitude)
-            console.log(lat)
-            console.log(lng)
+
 
             var input = document.getElementsByClassName('autoaddress');
 
@@ -370,31 +313,27 @@
                     let lat = place.geometry.location.lat();
                     let lng = place.geometry.location.lng();
                     if (modalopen3.className.split(" ")[1] === 'uk-open') {
-                        console.log(lat + " - " + lng);
-                        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDwnOhxGhY8GyY4qUbVcsPu9TMNEOcKM_U`, {
-                                method: "POST"
+                        //`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDwnOhxGhY8GyY4qUbVcsPu9TMNEOcKM_U`
+                        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?types=address&access_token=sk.eyJ1IjoibmF2ZWVkMTIyNCIsImEiOiJja2FrMXZjMzgwazlpMnBsZXJxZjM3eWNqIn0.0QIofdUNltBvKIjPqMzE3A`, {
+                                method: "GET",
                             })
                             .then(result => {
                                 return result.json()
                             })
                             .then(result => {
+                                console.log(result.features[0].context)
+                                let firstCondition = false;
                                 var neibhorhood_address = document.getElementById(
                                     'neibhorhood__signup__address')
                                 var city_address = document.getElementById(
                                     'city__signup__address')
-                                console.log(result)
-                                console.log(result.results[0].address_components)
-                                for (var x in result.results[0].address_components) {
-                                    console.log(result.results[0].address_components[x])
-                                    if (result.results[0].address_components[x].types[0] ===
+                                for (var x in result.features[0].context) {
+                                    if (result.features[0].context[x].id.split(".")[0] ===
                                         'neighborhood') {
-                                        neibhorhood_address.value = result.results[0].address_components[x]
-                                            .long_name
-                                        console.log(result.results[0].address_components[x].types[0])
+                                        neibhorhood_address.value = result.features[0].context[x].text
                                     }
-                                    if (result.results[0].address_components[x].types[0] === 'locality') {
-                                        city_address.value = result.results[0].address_components[x]
-                                            .long_name
+                                    if (result.features[0].context[x].id.split(".")[0] === 'place') {
+                                        city_address.value = result.features[0].context[x].text
                                     }
                                 }
                             })
@@ -402,42 +341,37 @@
                     if (modalopen1.className.split(" ")[1] === 'uk-open') {
                         document.getElementById("lat__case_submit").value = lat;
                         document.getElementById("lng__case_submit").value = lng;
-                        console.log(lat + " - " + lng);
-                        fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDwnOhxGhY8GyY4qUbVcsPu9TMNEOcKM_U`, {
-                                method: "POST"
+                        fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?types=address&access_token=sk.eyJ1IjoibmF2ZWVkMTIyNCIsImEiOiJja2FrMXZjMzgwazlpMnBsZXJxZjM3eWNqIn0.0QIofdUNltBvKIjPqMzE3A`, {
+                                method: "GET"
                             })
                             .then(result => {
                                 return result.json()
                             })
                             .then(result => {
-                                var city_address = document.getElementById("city__case__name")
-                                var neibhorhood_address = document.getElementById(
+                                console.log(result)
+                                //DOM Elements
+                                const city_address = document.getElementById("city__case__name")
+                                const neibhorhood_address = document.getElementById(
                                     "neigbborhood__case__name")
-                                var province_address = document.getElementById(
+                                const province_address = document.getElementById(
                                     "province__case__name")
-                                var country_address = document.getElementById(
+                                const country_address = document.getElementById(
                                     "country__case__name")
-                                for (var x in result.results[0].address_components) {
-                                    if (result.results[0].address_components[x].types[0] ===
+
+                                for (var x in result.features[0].context) {
+                                    if (result.features[0].context[x].id.split(".")[0] ===
                                         'neighborhood') {
-                                        neibhorhood_address.value = result.results[0].address_components[x]
-                                            .long_name
-                                        console.log(result.results[0].address_components[x].types[0])
+                                        neibhorhood_address.value = result.features[0].context[x].text
                                     }
-                                    if (result.results[0].address_components[x].types[0] === 'locality') {
-                                        city_address.value = result.results[0].address_components[x]
-                                            .long_name
+                                    if (result.features[0].context[x].id.split(".")[0] === 'place') {
+                                        city_address.value = result.features[0].context[x].text
+                                        secondCondition = true;
                                     }
-                                    if (result.results[0].address_components[x].types[0] ===
-                                        "administrative_area_level_1") {
-                                        province_address.value = result.results[0].address_components[x]
-                                            .long_name
-                                        console.log(result.results[0].address_components[x]
-                                            .long_name)
+                                    if (result.features[0].context[x].id.split(".")[0] === 'region') {
+                                        province_address.value = result.features[0].context[x].text
                                     }
-                                    if (result.results[0].address_components[x].types[0] === 'country') {
-                                        country_address.value = result.results[0].address_components[x]
-                                            .long_name
+                                    if (result.features[0].context[x].id.split(".")[0] === 'country') {
+                                        country_address.value = result.features[0].context[x].text
                                     }
                                 }
                             })
@@ -475,17 +409,12 @@
                 searchBox.setBounds(map.getBounds());
             });
 
-            console.log('hello');
             var markers = [];
             // Listen for the event fired when the user selects a prediction and retrieve
             // more details for that place.
             try {
                 searchBox.addListener('places_changed', function () {
                     var places = searchBox.getPlaces();
-                    console.log('hello')
-                    console.log(places);
-
-
                     if (places.length == 0) {
                         return;
                     }
@@ -496,7 +425,6 @@
                     var bounds = new google.maps.LatLngBounds();
                     places.forEach(function (place) {
                         if (!place.geometry) {
-                            console.log("Returned place contains no geometry");
                             return;
                         }
 
@@ -537,8 +465,6 @@
 
                         for (x in data.cases) {
                             var infowindow = new google.maps.InfoWindow();
-                            console.log(data.cases[x].lat)
-                            console.log(data.cases[x].lng)
                             var marker = new google.maps.Marker({
                                 position: {
                                     lat: data.cases[x].lat,
@@ -562,8 +488,6 @@
                                 infowindow.open(map, this);
                             });
                         }
-                        console.log(data)
-                        console.log(data.cases)
                     })
                     .catch(err => {
                         console.log(err)

@@ -1,4 +1,6 @@
 const CasesModel = require('../models/cases');
+const UserSignUpModel = require('../models/signupModel');
+
 
 exports.renderAllCases = (req, res, next) => {
     console.log(req.query.page)
@@ -103,7 +105,8 @@ exports.statsQueryController = (req, res, next) => {
             .then(result => {
                 res.status(200).json({
                     message: "reached StatsQuery API",
-                    data: result
+                    data: result,
+                    type: "Today"
                 })
             })
             .catch(err => {
@@ -125,7 +128,8 @@ exports.statsQueryController = (req, res, next) => {
             .then(result => {
                 res.status(200).json({
                     message: "reached StatsQuery API",
-                    data: result
+                    data: result,
+                    type: "current Week"
                 })
             })
             .catch(err => {
@@ -146,7 +150,8 @@ exports.statsQueryController = (req, res, next) => {
             .then(result => {
                 res.status(200).json({
                     message: "reached StatsQuery API",
-                    data: result
+                    data: result,
+                    type: "current month"
                 })
             })
             .catch(err => {
@@ -158,11 +163,49 @@ exports.statsQueryController = (req, res, next) => {
             .then(result => {
                 res.status(200).json({
                     message: "reached StatsQuery API",
-                    data: result
+                    data: result,
+                    type: "current year"
                 })
             })
             .catch(err => {
                 console.log(err)
+            })
+    }
+    if (req.query.statsType === "5") {
+        CasesModel.aggregate([{
+                    "$match": {
+                        "createdAt": {
+                            "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                            // "$lt": new Date("2020-05-22")
+                        },
+                    }
+                },
+                {
+                    "$group": {
+                        _id: {
+                            "city": {
+                                "city": "$city"
+                            },
+                            "neighborhood": {
+                                "neighborhood": "$neighborhood"
+                            },
+                        },
+                        count: {
+                            $sum: 1
+                        }
+                    }
+                }
+            ]).then(result => {
+                res.status(200).json({
+                    message: "reached StatsQuery API",
+                    data: result,
+                    type: "count by province for today"
+                })
+                return result;
+
+            })
+            .then(result => {
+                console.log(result[0]._id);
             })
     }
 
@@ -172,7 +215,7 @@ exports.statsQueryController = (req, res, next) => {
 // CasesModel.aggregate([{
 //     "$match": {
 //         "createdAt": {
-//             // "$gte": new Date("2020-01-01"),
+//             // "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString()
 //             // "$lt": new Date("2020-05-22")
 //             queryObj
 //         },

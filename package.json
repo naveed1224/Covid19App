@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^6.4.1",
+    "mapbox-gl": "^1.10.1",
     "mongoose": "^5.9.11",
     "node-cron": "^2.0.3",
     "node-fetch": "^2.6.0",

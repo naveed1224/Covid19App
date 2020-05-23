@@ -10,6 +10,7 @@ const caseRoutes = require('./routes/casesRoutes');
 const notifyRoutes = require('./routes/notifyRoute');
 const signRoutes = require('./routes/signupRoutes');
 const covid19APIRoutes = require('./routes/covid19API');
+const CasesModel = require('./models/cases');
 
 //cron backgroud job
 const cron = require("node-cron");
@@ -27,17 +28,10 @@ const app = express();
 //receiving json in body
 app.use(bodyParser.json());
 
-//csrf protection
-const csrfProtection = csrf()
-
 //templating with ejs syntax
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-//parsing body of http request
-// app.use(bodyParser.urlencoded({
-//     extended: false
-// }));
 //static files: javascript/css
 app.use('/static', express.static(path.join(__dirname, 'public')))
 
@@ -61,13 +55,32 @@ app.use('/notifications', signRoutes);
 app.use('/API', covid19APIRoutes);
 
 //cron backend job
+//move code to different 
+//0 21 * * *
 cron.schedule("* * * * *", function () {
     console.log("running a task every minute");
-    //check database new cases in last hour
+    // check database new cases in last hour
+    // CasesModel.aggregate([{
+    //         "$match": {
+    //             "createdAt": {
+    //                 "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString()
+    //                 // "$lt": new Date("2020-05-22")
+    //             },
+    //         }
+    //     },
+    //     {
+    //         "$group": {
+    //             _id: "$province",
+    //             count: {
+    //                 $sum: 1
+    //             }
+    //         }
+    //     }
+    // ]).then(results => console.log(results))
 
-    //get all users within a specific location
+    // get all users within a specific location
 
-    //send text message to all those people
+    // send text message to all those people
 
     // client.messages
     //     .create({
