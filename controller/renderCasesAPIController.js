@@ -172,6 +172,8 @@ exports.statsQueryController = (req, res, next) => {
             })
     }
     if (req.query.statsType === "5") {
+        let casesStats = {};
+        let totalCityStat = {};
         CasesModel.aggregate([{
                     "$match": {
                         "createdAt": {
@@ -201,45 +203,56 @@ exports.statsQueryController = (req, res, next) => {
                     data: result,
                     type: "count by province for today"
                 })
-                return result;
+                casesStats = result
 
             })
-            .then(result => {
-                console.log(result[0]._id);
+            .then(() => {
+                CasesModel.aggregate([{
+                            "$match": {
+                                "createdAt": {
+                                    "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                                    // "$lt": new Date("2020-05-22")
+                                },
+                            }
+                        },
+                        {
+                            "$group": {
+                                _id: {
+                                    "city": "$city"
+                                },
+                                count: {
+                                    $sum: 1
+                                }
+                            }
+                        }
+                    ])
+                    .then(result => {
+                        for (const key in result) {
+                            totalCityStat[result[key]._id.city] = result[key].count
+                        }
+                    })
+                    .then(() => {
+
+                        for (const key in casesStats) {
+                            UserSignUpModel.find({
+                                    neibhorhood: casesStats[key]._id.neighborhood.neighborhood
+                                })
+                                .then(user => {
+                                    if (user.length > 0) {
+                                        for (const userRecord of user) {
+                                            console.log(`Your NeighborHood ${casesStats[key]._id.neighborhood.neighborhood} has ${casesStats[key].count} Cases and your city ${casesStats[key]._id.city.city} has ${totalCityStat[String(casesStats[key]._id.city.city)]} cases today`)
+
+                                        }
+                                    }
+                                })
+                        }
+                    })
+                    .then(() => {
+                        console.log(totalCityStat)
+                    })
+                    .catch(err => console.log(err))
+
             })
     }
 
 }
-
-
-// CasesModel.aggregate([{
-//     "$match": {
-//         "createdAt": {
-//             // "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString()
-//             // "$lt": new Date("2020-05-22")
-//             queryObj
-//         },
-//     }
-// },
-// {
-//     "$group": {
-//         "_id": {
-//             // "year": {
-//             //     "$year": "$createdAt"
-//             // },
-//             // "month": {
-//             //     "$month": "$createdAt"
-//             // },
-//             "week": {
-//                 "$week": "$createdAt"
-//             },
-//             "day": {
-//                 "$dayOfMonth": "$createdAt"
-//             }
-//         },
-//         "count": {
-//             "$sum": 1
-//         }
-//     }
-// }
-// ])
