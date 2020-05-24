@@ -21,7 +21,6 @@ exports.renderCases = (req, res, next) => {
         message: "successfully reached the API",
         cases: cases
       })
-      //console.log(cases);
     })
     .catch(err => {
       console.log(err)
@@ -59,7 +58,6 @@ exports.DeleteCase = (req, res, next) => {
 
 
 exports.submitCase = (req, res, next) => {
-  console.log(req.body);
   const lat = req.body.lat;
   const lng = req.body.lng;
   const userEmail = req.body.userEmail;
@@ -85,11 +83,7 @@ exports.submitCase = (req, res, next) => {
 
   caseSubmit.save()
     .then(data => {
-      console.log('data saved')
-      console.log(data)
-      console.log(req.body.userEmail)
       if (userEmail !== '') {
-        console.log('email sent')
         transport.sendMail({
           to: userEmail,
           from: 'n.n_sultan@hotmail.com',
@@ -356,8 +350,6 @@ a[x-apple-data-detectors] {
         message: "successfully reached the API",
         case: caseSubmit
       })
-      console.log('returned response');
-      console.log(data);
     })
     .catch(err => {
       console.log(err);

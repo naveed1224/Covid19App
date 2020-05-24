@@ -23,8 +23,6 @@ exports.signUpConfirm = (req, res, next) => {
             confirmCode: parseInt(req.query.confirmCode)
         })
         .then(result => {
-            console.log(result)
-            // console.log(result.status)
             if (result) {
                 if (result.status === "true") {
                     res.render('mainPage/confirm', {
@@ -38,7 +36,6 @@ exports.signUpConfirm = (req, res, next) => {
                     result.status = true;
                     return result.save()
                         .then(result => {
-                            console.log(result)
                             res.render('mainPage/confirm', {
                                 message: "Successfull Signup - ID#: ",
                                 uuid: result._id,
@@ -62,12 +59,8 @@ exports.signUpConfirm = (req, res, next) => {
 }
 
 exports.signUpDeleteConfirm = (req, res, next) => {
-    console.log(req.params);
-    console.log(req.query);
-
     UserSignupModel.findByIdAndDelete(req.params.signupid)
         .then(result => {
-            console.log(result)
             if (result) {
                 res.render('mainPage/confirm', {
                     message: "Successfully Deleted Text Messages Notifications Signup - You will no longer Receive Text messages releated to cases in your region - ID#: ",
@@ -97,14 +90,12 @@ exports.signupController = (req, res, next) => {
             phone: parsedPhone
         })
         .then(record => {
-            console.log(record.length)
             if (record.length > 0) {
                 res.status(409).json({
                     message: "Phone signup already Exists",
                     duplicate: true
                 })
             } else {
-                console.log(req.body);
                 res.status(200).json({
                     message: "reached signup API",
                     data: req.body,
@@ -122,14 +113,13 @@ exports.signupController = (req, res, next) => {
                 })
                 userSignup.save()
                     .then(result => {
-                        console.log(result);
                         client.messages
                             .create({
                                 body: `Click below to confirm your signup:\n http://localhost:3000/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}\n \nIf you no longer want to receive any notifications, click link below:\nhttp://localhost:3000/notifications/signup/confirmDelete/${result._id}?confirmCode=${signupConfirmCode}`,
                                 from: '+12066874626',
                                 to: `${result.phone}`
                             })
-                            .then(message => console.log('text sent'));
+                            .then(message => console.log(''));
                     })
                     .catch(err => {
                         console.log(err)

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('../includes/head.ejs') %>
+    <title>Covid Front End Project</title>
+</head>
+
+<body>
+    <nav class="uk-navbar-container" uk-navbar>
+        <div class="uk-navbar-left">
+            <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="http://localhost:3000">Map</a></li>
+                <li class="uk-parent"><a href="http://localhost:3000/case/viewCasesPage">Anonymous Submissions</a></li>
+                <li class="uk-parent"><a href="http://localhost:3000/privacy">Privacy Policy</a></li>
+                <li class="uk-parent"><a href="http://localhost:3000/about">About Web App</a></li>
+
+            </ul>
+        </div>
+    </nav>
+    <div class="uk-container">
+        <article class="uk-article">
+
+            <h1 class="uk-article-title" style="margin-top: 20px;"><a class="uk-link-reset" href="">Protecting your
+                    Privacy</a></h1>
+
+            <p class="uk-article-meta">Written by <a href="#">Anonymous Covid19 Response Team</a> on 25 May 2020</p>
+
+            <p class="uk-text-lead">We start by collecting less of your personal information.</p>
+
+            <div class="uk-child-width-1-3@m uk-grid-small uk-grid-match" uk-grid>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <h3 class="uk-card-title">
+                            <div class="uk-card-badge uk-label">Step 1</div>
+                        </h3>
+                        <p>Collect the least amount of information as possbile.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <h3 class="uk-card-title">
+                            <div class="uk-card-badge uk-label">Step 2</div>
+                        </h3>
+                        <p>Place hardstops or force actions, where you may accidently expose your personal information.
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="uk-card uk-card-default uk-card-body">
+                        <h3 class="uk-card-title">
+                            <div class="uk-card-badge uk-label">Step 3</div>
+                        </h3>
+                        <p>Make it really difficult for malicious attempts to be accomplished.</p>
+                    </div>
+                </div>
+            </div>
+
+            <p>We tried our very best to insure you stay Anonymous when you submit a case. Below we highlight the pricy
+                and Security measures we have ntake to insure you stay Anonymous when using any of the functionalities
+                on this
+                site.</p>
+
+            <div class="uk-container">
+                <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                    <div class="uk-card-media-left uk-cover-container">
+                        <span class="uk-position-center" uk-icon="icon: users; ratio: 10"></span>
+                        <canvas width="400" height="400"></canvas>
+                    </div>
+                    <div>
+                        <div class="uk-card-body">
+                            <h3 class="uk-card-title">Anonymous Case Submission</h3>
+                            <ul class="uk-list uk-list-bullet">
+                                <li>Slightly offset the location of the case</li>
+                                <li>Random offset algorithem to prevent submitting a case in a particular Area</li>
+                                <li>you choose where in your neighborhood to place the Identifier</li>
+                                <li>Delete your Case anytime, simply click "Delete" in the Confirmation Email</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="uk-container">
+                    <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                        <div class="uk-card-media-left uk-cover-container">
+                            <span class="uk-position-center" uk-icon="icon: comments; ratio: 10"></span>
+                            <canvas width="400" height="400"></canvas>
+                        </div>
+                        <div>
+                            <div class="uk-card-body">
+                                <h3 class="uk-card-title">Sign up for SMS notifications</h3>
+                                <ul class="uk-list uk-list-bullet">
+                                    <li>Only you can confirm to receive SMS notifications</li>
+                                    <li>Stop Receiving SMS notifications at anytime. Simply click "Stop" link directly
+                                        in
+                                        the Received SMS Message</li>
+                                    <li>Non-Intrusive once a day summary SMS Notifications. Notifications regarding
+                                        Cases in your
+                                        Neighborhood only</li>
+                                    <li>Strong backend security designed to prevent malicous attempts</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="uk-container">
+                        <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
+                            <div class="uk-card-media-left uk-cover-container">
+                                <span class="uk-position-center" uk-icon="icon: warning; ratio: 10"></span>
+                                <canvas width="400" height="400"></canvas>
+                            </div>
+                            <div>
+                                <div class="uk-card-body">
+                                    <h3 class="uk-card-title">Anonymously warn others of contact</h3>
+                                    <ul class="uk-list uk-list-bullet">
+                                        <li>A particular person can be only warned once</li>
+                                        <li>No personal information required when informing</li>
+                                        <li>Standard message with directions to Government guidelines on how to handle
+                                            direct covid19 Contact</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div>
+                            <p> </p>
+                        </div>
+                    </div>
+
+        </article>
+    </div>
+
+    <script src="/static/uikit-3.4.2/js/uikit.min.js"></script>
+    <script src="/static/uikit-3.4.2/js/uikit-icons.min.js"></script>
+    <script>
+        UIkit.modal("#modal-group-1");
+    </script>
+
+</body>
+
+</html>

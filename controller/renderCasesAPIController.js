@@ -3,7 +3,6 @@ const UserSignUpModel = require('../models/signupModel');
 
 
 exports.renderAllCases = (req, res, next) => {
-    console.log(req.query.page)
     const currentPage = req.query.page || 1;
     const perPage = 10;
     let totalCases;
@@ -32,11 +31,6 @@ exports.renderAllCases = (req, res, next) => {
         })
 }
 exports.renderSearchCases = (req, res, next) => {
-    console.log(req.query)
-    console.log(!req.query.searchQueryText)
-    // res.status(200).json({
-    //     message: 'Successfully reached search engine API'
-    // })
     const currentPage = req.query.page || 1;
     const perPage = 10;
     let totalCases;
@@ -47,10 +41,6 @@ exports.renderSearchCases = (req, res, next) => {
         "1": "country"
     }
     let searchArea = queryTypeParser[req.query.SearchQueryType]
-    // const query = {
-    //     [searchArea]: req.query.searchQueryText
-    // };
-    console.log(searchArea);
 
     CasesModel.find().countDocuments()
         .then(count => {
@@ -62,8 +52,6 @@ exports.renderSearchCases = (req, res, next) => {
                     .limit(perPage);
             }
             if (req.query.searchQueryText || req.query.SearchQueryType) {
-                console.log('search Area Below')
-                //console.log(searchArea)
                 return CasesModel
                     .find({
                         [searchArea]: req.query.searchQueryText
@@ -73,7 +61,6 @@ exports.renderSearchCases = (req, res, next) => {
             }
         })
         .then(results => {
-            console.log(results)
             res.status(200).json({
                 message: 'Successfully reached render Cases API',
                 data: results,
@@ -91,7 +78,6 @@ exports.renderSearchCases = (req, res, next) => {
 
 
 exports.statsQueryController = (req, res, next) => {
-    console.log(req.query)
     const statsQueryType = {
 
     }
@@ -169,89 +155,6 @@ exports.statsQueryController = (req, res, next) => {
             })
             .catch(err => {
                 console.log(err)
-            })
-    }
-    if (req.query.statsType === "5") {
-        let casesStats = {};
-        let totalCityStat = {};
-        CasesModel.aggregate([{
-                    "$match": {
-                        "createdAt": {
-                            "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
-                            // "$lt": new Date("2020-05-22")
-                        },
-                    }
-                },
-                {
-                    "$group": {
-                        _id: {
-                            "city": {
-                                "city": "$city"
-                            },
-                            "neighborhood": {
-                                "neighborhood": "$neighborhood"
-                            },
-                        },
-                        count: {
-                            $sum: 1
-                        }
-                    }
-                }
-            ]).then(result => {
-                res.status(200).json({
-                    message: "reached StatsQuery API",
-                    data: result,
-                    type: "count by province for today"
-                })
-                casesStats = result
-
-            })
-            .then(() => {
-                CasesModel.aggregate([{
-                            "$match": {
-                                "createdAt": {
-                                    "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
-                                    // "$lt": new Date("2020-05-22")
-                                },
-                            }
-                        },
-                        {
-                            "$group": {
-                                _id: {
-                                    "city": "$city"
-                                },
-                                count: {
-                                    $sum: 1
-                                }
-                            }
-                        }
-                    ])
-                    .then(result => {
-                        for (const key in result) {
-                            totalCityStat[result[key]._id.city] = result[key].count
-                        }
-                    })
-                    .then(() => {
-
-                        for (const key in casesStats) {
-                            UserSignUpModel.find({
-                                    neibhorhood: casesStats[key]._id.neighborhood.neighborhood
-                                })
-                                .then(user => {
-                                    if (user.length > 0) {
-                                        for (const userRecord of user) {
-                                            console.log(`Your NeighborHood ${casesStats[key]._id.neighborhood.neighborhood} has ${casesStats[key].count} Cases and your city ${casesStats[key]._id.city.city} has ${totalCityStat[String(casesStats[key]._id.city.city)]} cases today`)
-
-                                        }
-                                    }
-                                })
-                        }
-                    })
-                    .then(() => {
-                        console.log(totalCityStat)
-                    })
-                    .catch(err => console.log(err))
-
             })
     }
 

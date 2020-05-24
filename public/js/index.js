@@ -1,4 +1,3 @@
-
 //signup DOMS
 const userSignupEmail = document.getElementById('email__signup__address');
 const userSignupPhone = document.getElementById('phone__signup__address');
@@ -23,12 +22,8 @@ const emailInformSendButton = document.getElementById('email__inform__send');
 const elements = {};
 
 const notifyUser = () => {
-    console.log(emailInform);
-    console.log(emailInformBody);
-    console.log(emailInformSendButton);
     let response_code;
     if (emailInform.value) {
-        console.log('email provided')
         response_code = fetch('http://localhost:3000/email/anonymousEmail', {
                 method: 'POST',
                 headers: {
@@ -43,10 +38,7 @@ const notifyUser = () => {
                 return response.json()
             })
             .then(data => {
-                console.log(data)
                 if (data.status === 'duplicate') {
-                    console.log(data)
-                    console.log('duplicate Detected');
                     UIkit.modal("#modal-group-2").hide();
                     emailInform.value = '';
                     emailInformBody.value = '';
@@ -55,8 +47,6 @@ const notifyUser = () => {
                         status: 'danger'
                     });
                 } else {
-                    console.log('no duplicate found')
-                    console.log(data)
                     UIkit.modal("#modal-group-2").hide();
                     emailInform.value = '';
                     emailInformBody.value = '';
@@ -75,8 +65,6 @@ const notifyUser = () => {
             status: 'danger'
         });
     }
-    console.log('response below');
-    console.log(response_code)
 }
 
 
@@ -87,13 +75,9 @@ const submitCase = () => {
 
     if (userEmail.value !== '') {
         userEmailCheck = true;
-        console.log('userEmailCheck');
     }
 
     //get all elements from form
-    console.log(lat.value);
-    console.log(lng.value);
-    console.log(userEmail.value);
 
     //front end validation of the form
 
@@ -120,10 +104,6 @@ const submitCase = () => {
             return response.json();
         })
         .then(data => {
-            console.log(data);
-            console.log("returned Message: " + data.message)
-            console.log("returned Message: " + data.case)
-
             //close modal
             UIkit.modal("#modal-group-1").hide();
 
@@ -158,24 +138,14 @@ const UserSignUp = () => {
     let response_code;
     let userEmailCheck = false;
     let userPhoneCheck = false;
-    console.log(userSignupEmail.value)
-    console.log(userSignupPhone.value)
-    console.log(userSignupNeighborhood.value)
-    console.log(userSignupCity.value)
 
     if (userSignupEmail.value) {
         userEmailCheck = true;
-        console.log('userEmailCheck passed');
     }
     if (userSignupPhone.value) {
         userPhoneCheck = true;
-        console.log('userphoneCheck passed');
     }
 
-    //get all elements from form
-    //front end validation of the form
-    //if validation successful
-    //send API fetch to save results
     if (userEmailCheck === true && userPhoneCheck === true) {
         response_code = fetch('http://localhost:3000/notifications/signup', {
                 method: 'POST',
@@ -201,9 +171,6 @@ const UserSignUp = () => {
                         status: 'danger'
                     });
                 } else {
-                    console.log(data);
-                    console.log("returned Message: " + data.message)
-                    console.log("returned Message: " + data.case)
 
                     //close modal
                     UIkit.modal("#modal-group-3").hide();

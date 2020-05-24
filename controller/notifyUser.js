@@ -4,30 +4,30 @@ const sendGrid = require('nodemailer-sendgrid-transport');
 const NotifyModel = require('../models/notifiedUser');
 
 const transport = nodeMailer.createTransport(sendGrid({
-    auth: {
-        api_key: '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'
-    }
+  auth: {
+    api_key: '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'
+  }
 }));
 
 exports.notifyUser = (req, res, next) => {
-    const userEmail = req.body.emailInform
+  const userEmail = req.body.emailInform
 
-    const notifyUserInstance = new NotifyModel({
-        email: userEmail
+  const notifyUserInstance = new NotifyModel({
+    email: userEmail
+  })
+  const existingEmail = NotifyModel.findOne({
+      email: userEmail
     })
-    const existingEmail = NotifyModel.findOne({
-            email: userEmail
-        })
-        .then(data => {
-            if (!data) {
-                notifyUserInstance.save()
-                    .then(data => {
-                        if (userEmail !== '') {
-                            transport.sendMail({
-                                to: userEmail,
-                                from: 'n.n_sultan@hotmail.com',
-                                subject: 'Attention!',
-                                html: `
+    .then(data => {
+      if (!data) {
+        notifyUserInstance.save()
+          .then(data => {
+            if (userEmail !== '') {
+              transport.sendMail({
+                to: userEmail,
+                from: 'n.n_sultan@hotmail.com',
+                subject: 'Attention!',
+                html: `
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html style="width:100%;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0;">
             <head> 
@@ -282,32 +282,27 @@ exports.notifyUser = (req, res, next) => {
             </body>
             </html>
             `
-                            })
-                        }
-                        return data;
-                    })
-                    .then(data => {
-                        console.log(req.body)
-                        res.status(200).json({
-                            message: "Reached email API",
-                            data: data
-                        })
-                        console.log('Returned Email response')
-                        //submission for a case
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-            } else {
-                console.log('email exists')
-                return res.status(200).json({
-                    message: "Reached email API",
-                    status: 'duplicate',
-                    data: data
-
-                })
+              })
             }
-            console.log('existing data find')
-            console.log(data)
+            return data;
+          })
+          .then(data => {
+            res.status(200).json({
+              message: "Reached email API",
+              data: data
+            })
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        return res.status(200).json({
+          message: "Reached email API",
+          status: 'duplicate',
+          data: data
+
         })
+      }
+      console.log(data)
+    })
 }

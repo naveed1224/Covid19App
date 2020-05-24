@@ -8,7 +8,7 @@
     <title>Covid Front End Project</title>
 </head>
 
-<body>
+<body style="background-image: url(/static/images/about.jpg);">
     <nav class="uk-navbar-container" uk-navbar>
         <div class="uk-navbar-left">
             <ul class="uk-navbar-nav">
@@ -19,36 +19,28 @@
 
             </ul>
         </div>
+
     </nav>
 
-    <!-- <a class="uk-navbar-item uk-logo" href="#">Covid19 Response</a> -->
+    <div class="uk-section uk-section-default">
+        <div class="uk-container">
 
-    <!-- <div class="uk-navbar-right">
-        <ul class="uk-iconnav">
-            <li>
-                <a class="uk-button uk-button-primary" href=http://localhost:3000">Go Home</a> </li> </ul> </div>
-                    Navigation end
+            <h3>About Site</h3>
 
-    </div> -->
-    <div class="uk-alert-danger" uk-alert style="margin-top: 0px; margin-bottom: 0;">
-        <a class="uk-alert-close" uk-close></a>
-        <center>
-            <p>Please Visit Privacy Policy and About page for important information regarding this
-                Web App and our
-                Mission.
-            </p>
-        </center>
-    </div>
+            <div class="uk-grid-match uk-child-width-1-3@m" uk-grid>
+                <div>
+                    <p>Combat Covid19 Community Spread.</p>
+                </div>
+                <div>
+                    <p>Empower everyone to share critical information.</p>
+                </div>
+                <div>
+                    <p>Share information while staying Anonymous.</p>
+                </div>
+            </div>
 
-    <div class="uk-container">
-        <span class="uk-label uk-label-<%= statusCategory %>"> <%= status %></span>
-        <div uk-alert>
-            <a class="uk-alert-close" uk-close></a>
-            <h3>Notice</h3>
-            <p> <%= message %> <%= uuid %> </p>
         </div>
     </div>
-
 
     <script src="/static/uikit-3.4.2/js/uikit.min.js"></script>
     <script src="/static/uikit-3.4.2/js/uikit-icons.min.js"></script>

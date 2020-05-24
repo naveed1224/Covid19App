@@ -11,6 +11,7 @@ const notifyRoutes = require('./routes/notifyRoute');
 const signRoutes = require('./routes/signupRoutes');
 const covid19APIRoutes = require('./routes/covid19API');
 const CasesModel = require('./models/cases');
+const UserSignUpModel = require('./models/signupModel');
 
 //cron backgroud job
 const cron = require("node-cron");
@@ -55,40 +56,87 @@ app.use('/notifications', signRoutes);
 app.use('/API', covid19APIRoutes);
 
 //cron backend job
-//move code to different 
-//0 21 * * *
-cron.schedule("* * * * *", function () {
-    console.log("running a task every minute");
-    // check database new cases in last hour
-    // CasesModel.aggregate([{
-    //         "$match": {
-    //             "createdAt": {
-    //                 "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0)).toISOString()
-    //                 // "$lt": new Date("2020-05-22")
-    //             },
-    //         }
-    //     },
-    //     {
-    //         "$group": {
-    //             _id: "$province",
-    //             count: {
-    //                 $sum: 1
-    //             }
-    //         }
-    //     }
-    // ]).then(results => console.log(results))
+cron.schedule("0 22 * * *", function () {
+    let casesStats = {};
+    let totalCityStat = {};
+    CasesModel.aggregate([{
+                "$match": {
+                    "createdAt": {
+                        "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                        // "$lt": new Date("2020-05-22")
+                    },
+                }
+            },
+            {
+                "$group": {
+                    _id: {
+                        "city": {
+                            "city": "$city"
+                        },
+                        "neighborhood": {
+                            "neighborhood": "$neighborhood"
+                        },
+                    },
+                    count: {
+                        $sum: 1
+                    }
+                }
+            }
+        ]).then(result => {
+            casesStats = result
+        })
+        .then(() => {
+            CasesModel.aggregate([{
+                        "$match": {
+                            "createdAt": {
+                                "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                                // "$lt": new Date("2020-05-22")
+                            },
+                        }
+                    },
+                    {
+                        "$group": {
+                            _id: {
+                                "city": "$city"
+                            },
+                            count: {
+                                $sum: 1
+                            }
+                        }
+                    }
+                ])
+                .then(result => {
+                    for (const key in result) {
+                        totalCityStat[result[key]._id.city] = result[key].count
+                    }
+                })
+                .then(() => {
 
-    // get all users within a specific location
+                    for (const key in casesStats) {
+                        UserSignUpModel.find({
+                                neibhorhood: casesStats[key]._id.neighborhood.neighborhood,
+                                status: true
+                            })
+                            .then(user => {
+                                if (user.length > 0) {
+                                    for (const userRecord of user) {
+                                        let message = `Hello,\n\nCommunity Anonymous Cases today:\n\nYour Neighborhood - ${casesStats[key]._id.neighborhood.neighborhood}: ${casesStats[key].count} Cases\n\nYour city - ${casesStats[key]._id.city.city}: ${totalCityStat[String(casesStats[key]._id.city.city)]} cases\n\nStay Safe,\nAnonymous Covid19 Response Team\n\nFor more information:\nwww.AnonymousCovid19Response.com\n\nTo stop Receiving Messages, click:\nhttp://localhost:3000/notifications/signup/confirmDelete/${userRecord._id}?confirmCode=${userRecord.confirmCode}`;
+                                        client.messages
+                                            .create({
+                                                body: message,
+                                                from: '+12066874626',
+                                                to: userRecord.phone
+                                            })
+                                            .catch(err => console.log(err))
+                                    }
+                                }
+                            })
+                            .catch(err => console.log(err))
+                    }
+                })
+                .catch(err => console.log(err))
 
-    // send text message to all those people
-
-    // client.messages
-    //     .create({
-    //         body: 'Sample message from covid 19 APP - Naveed every 1 minute',
-    //         from: '+12066874626',
-    //         to: '6478964962'
-    //     })
-    //     .then(message => console.log(message));
+        })
 });
 
 mongoose.connect(MONGODB_URI, {
@@ -96,9 +144,7 @@ mongoose.connect(MONGODB_URI, {
         useNewUrlParser: true
     })
     .then(result => {
-        // console.log(result)
         app.listen(3000);
-        console.log('listening on 3000')
     })
     .catch(err => {
         console.log(err)

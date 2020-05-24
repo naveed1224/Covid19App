@@ -118,7 +118,6 @@ const statsCaseUpdateController = async () => {
         let caseWeekNumber = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/statsQuery/?statsType=2`, 'get');
         let caseTodayNumber = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/statsQuery/?statsType=1`, 'get');
 
-        console.log(formatAMPM(new Date));
         let time = formatAMPM(new Date)
 
         //insert the markup to HTML

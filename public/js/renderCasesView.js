@@ -33,8 +33,6 @@ const renderCaseMarkup = cases => {
 }
 
 const renderingResults = cases => {
-    console.log(cases.data)
-
     if (!cases.data) {
         renderCaseMarkup(-1)
     } else {
@@ -45,7 +43,6 @@ const renderingResults = cases => {
                 renderCaseMarkup(data)
             }
         }
-
     }
 }
 
@@ -98,7 +95,6 @@ const pageCaseController = async (pageType) => {
 
     if (pageType === 'next') {
         pageNumber = parseInt(currentPageNumber.value) + 1
-        console.log(pageNumber);
     }
 
     if (pageType === 'back') {
@@ -107,7 +103,6 @@ const pageCaseController = async (pageType) => {
         } else {
             pageNumber = parseInt(currentPageNumber.value) - 1;
         }
-        console.log(pageNumber);
     }
 
     //updating current page number
@@ -137,7 +132,6 @@ const pageCaseController = async (pageType) => {
 }
 
 const SearchFunctionalityController = async (pageType, searchQueryInput, searchTypeSelect) => {
-    console.log(`search Queries being sent, ${searchQueryInput} - ${searchTypeSelect}`)
     let pageNumber;
 
     // clear results
@@ -154,7 +148,6 @@ const SearchFunctionalityController = async (pageType, searchQueryInput, searchT
     } else {
         if (pageType === 'next') {
             pageNumber = parseInt(currentPageNumber.value) + 1
-            console.log(pageNumber);
         }
 
         if (pageType === 'back') {
@@ -163,7 +156,6 @@ const SearchFunctionalityController = async (pageType, searchQueryInput, searchT
             } else {
                 pageNumber = parseInt(currentPageNumber.value) - 1;
             }
-            console.log(pageNumber);
         }
     }
 
@@ -194,8 +186,6 @@ const SearchFunctionalityController = async (pageType, searchQueryInput, searchT
 }
 
 const queryIntentParse = (searchQuery, searchQuerySelect, globalState) => {
-    console.log(searchQuery)
-    console.log(searchQuerySelect)
     if (searchQuery === '' || searchQuerySelect === '') {
         return globalState.searchButtonCheck = false;
     } else {
@@ -211,20 +201,14 @@ searchButton.addEventListener('click', e => {
     e.preventDefault();
     queryIntentParse(searchTypeSelect.value, searchQueryInput.value, globalState);
     SearchFunctionalityController(null, searchQueryInput, searchTypeSelect);
-    console.log(globalState)
 })
-console.log(globalState.searchButtonCheck);
-
-
 nextPage.addEventListener('click', e => {
     if (globalState.searchButtonCheck === true) {
         e.preventDefault();
         SearchFunctionalityController("next", searchQueryInput, searchTypeSelect);
-        console.log(globalState.searchButtonCheck);
     } else {
         e.preventDefault();
         pageCaseController("next");
-        console.log(globalState.searchButtonCheck);
     }
 })
 
@@ -233,13 +217,8 @@ previousPage.addEventListener('click', e => {
     if (globalState.searchButton === true) {
         e.preventDefault();
         SearchFunctionalityController("back", searchQueryInput, searchTypeSelect);
-        console.log(globalState.searchButtonCheck);
     } else {
         e.preventDefault();
         pageCaseController("back");
-        console.log(globalState.searchButtonCheck);
     }
 })
-
-
-//user clicked search button with filter and text

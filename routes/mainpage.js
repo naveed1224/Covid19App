@@ -6,5 +6,7 @@ const mainPageController = require('../controller/mainPage')
 const router = express.Router();
 
 router.get('/', mainPageController.getIndex);
+router.get('/privacy', mainPageController.privacy);
+router.get('/about', mainPageController.about);
 
 module.exports = router;
