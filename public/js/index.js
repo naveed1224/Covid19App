@@ -20,11 +20,13 @@ const emailInformBody = document.getElementById('email__inform__body');
 const emailInformSendButton = document.getElementById('email__inform__send');
 
 const elements = {};
+const base_url = '' //'http://localhost:3000'
+
 
 const notifyUser = () => {
     let response_code;
     if (emailInform.value) {
-        response_code = fetch('http://localhost:3000/email/anonymousEmail', {
+        response_code = fetch(`${base_url}/email/anonymousEmail`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -85,7 +87,7 @@ const submitCase = () => {
 
 
     //send API fetch to save results
-    response_code = fetch('http://localhost:3000/case/case-create', {
+    response_code = fetch(`${base_url}/case/case-create`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -147,7 +149,7 @@ const UserSignUp = () => {
     }
 
     if (userEmailCheck === true && userPhoneCheck === true) {
-        response_code = fetch('http://localhost:3000/notifications/signup', {
+        response_code = fetch(`${base_url}/notifications/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

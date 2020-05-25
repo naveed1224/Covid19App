@@ -5,6 +5,7 @@ const searchQueryInput = document.getElementById('search__input__query');
 const searchButton = document.getElementById('case__search__query__button');
 let searchButtonCheck = false;
 let url, method;
+const baseURL = ''
 
 let globalState = {};
 
@@ -66,7 +67,7 @@ const controllCaseResults = async () => {
     //render results
     try {
         const spinnerDOM = document.getElementById('case_results_spinner');
-        let cases = await queryResults('http://localhost:3000/API/Cases/renderCases/caseResults?page=1', 'POST');
+        let cases = await queryResults(`${baseURL}/API/Cases/renderCases/caseResults?page=1`, 'POST');
 
         //rendering cases on page
         renderingResults(cases);
@@ -111,7 +112,7 @@ const pageCaseController = async (pageType) => {
     //render results
     try {
         const spinnerDOM = document.getElementById('case_results_spinner');
-        let cases = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults?page=${pageNumber}`, 'POST');
+        let cases = await queryResults(`${baseURL}/API/Cases/renderCases/caseResults?page=${pageNumber}`, 'POST');
         //fixed page limit issue
         if (pageNumber > Math.round(parseInt(cases.totalCases) / parseInt(cases.perPage))) {
             currentPageNumber.value = String(pageNumber - 1);
@@ -166,7 +167,7 @@ const SearchFunctionalityController = async (pageType, searchQueryInput, searchT
     try {
         const spinnerDOM = document.getElementById('case_results_spinner');
 
-        let cases = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/searchQuery/?searchQueryText=${searchQueryInput.value}&SearchQueryType=${searchTypeSelect.value}&page=${pageNumber}`, 'POST');
+        let cases = await queryResults(`${baseURL}/API/Cases/renderCases/caseResults/searchQuery/?searchQueryText=${searchQueryInput.value}&SearchQueryType=${searchTypeSelect.value}&page=${pageNumber}`, 'POST');
         //fixed page limit issue
         if (pageNumber > Math.round(parseInt(cases.totalCases) / parseInt(cases.perPage))) {
             currentPageNumber.value = String(pageNumber - 1);

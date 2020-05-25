@@ -3,6 +3,7 @@
 // const caseMonthStat = document.getElementById("case__month__stat");
 // const caseTotalStat = document.getElementById("case__total__stat");
 const caseRefreshStatsButton = document.getElementById("case__refresh__stats__button");
+const baseURL = '';
 
 
 
@@ -113,10 +114,10 @@ const statsCaseUpdateController = async () => {
         const spinnerDOM = document.getElementById('case_results_spinner');
 
         //make all the API calls
-        let caseTotalNumber = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/statsQuery/?statsType=4`, 'get');
-        let caseMonthNumber = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/statsQuery/?statsType=3`, 'get');
-        let caseWeekNumber = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/statsQuery/?statsType=2`, 'get');
-        let caseTodayNumber = await queryResults(`http://localhost:3000/API/Cases/renderCases/caseResults/statsQuery/?statsType=1`, 'get');
+        let caseTotalNumber = await queryResults(`${baseURL}/API/Cases/renderCases/caseResults/statsQuery/?statsType=4`, 'get');
+        let caseMonthNumber = await queryResults(`${baseURL}/API/Cases/renderCases/caseResults/statsQuery/?statsType=3`, 'get');
+        let caseWeekNumber = await queryResults(`${baseURL}/API/Cases/renderCases/caseResults/statsQuery/?statsType=2`, 'get');
+        let caseTodayNumber = await queryResults(`${baseURL}/API/Cases/renderCases/caseResults/statsQuery/?statsType=1`, 'get');
 
         let time = formatAMPM(new Date)
 

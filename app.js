@@ -82,84 +82,87 @@ app.use('/API', covid19APIRoutes);
 cron.schedule("0 22 * * *", function () {
     let casesStats = {};
     let totalCityStat = {};
-    CasesModel.aggregate([{
-                "$match": {
-                    "createdAt": {
-                        "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
-                        // "$lt": new Date("2020-05-22")
-                    },
-                }
-            },
-            {
-                "$group": {
-                    _id: {
-                        "city": {
-                            "city": "$city"
+    const hostname = (req, res, next) => {
+
+        CasesModel.aggregate([{
+                    "$match": {
+                        "createdAt": {
+                            "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                            // "$lt": new Date("2020-05-22")
                         },
-                        "neighborhood": {
-                            "neighborhood": "$neighborhood"
-                        },
-                    },
-                    count: {
-                        $sum: 1
                     }
-                }
-            }
-        ]).then(result => {
-            casesStats = result
-        })
-        .then(() => {
-            CasesModel.aggregate([{
-                        "$match": {
-                            "createdAt": {
-                                "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
-                                // "$lt": new Date("2020-05-22")
-                            },
-                        }
-                    },
-                    {
-                        "$group": {
-                            _id: {
+                },
+                {
+                    "$group": {
+                        _id: {
+                            "city": {
                                 "city": "$city"
                             },
-                            count: {
-                                $sum: 1
-                            }
+                            "neighborhood": {
+                                "neighborhood": "$neighborhood"
+                            },
+                        },
+                        count: {
+                            $sum: 1
                         }
                     }
-                ])
-                .then(result => {
-                    for (const key in result) {
-                        totalCityStat[result[key]._id.city] = result[key].count
-                    }
-                })
-                .then(() => {
-
-                    for (const key in casesStats) {
-                        UserSignUpModel.find({
-                                neibhorhood: casesStats[key]._id.neighborhood.neighborhood,
-                                status: true
-                            })
-                            .then(user => {
-                                if (user.length > 0) {
-                                    for (const userRecord of user) {
-                                        let message = `Hello,\n\nCommunity Anonymous Cases today:\n\nYour Neighborhood - ${casesStats[key]._id.neighborhood.neighborhood}: ${casesStats[key].count} Cases\n\nYour city - ${casesStats[key]._id.city.city}: ${totalCityStat[String(casesStats[key]._id.city.city)]} cases\n\nStay Safe,\nAnonymous Covid19 Response Team\n\nFor more information:\nwww.AnonymousCovid19Response.com\n\nTo stop Receiving Messages, click:\nhttp://localhost:3000/notifications/signup/confirmDelete/${userRecord._id}?confirmCode=${userRecord.confirmCode}`;
-                                        client.messages
-                                            .create({
-                                                body: message,
-                                                from: '+12066874626',
-                                                to: userRecord.phone
-                                            })
-                                            .catch(err => console.log(err))
-                                    }
+                }
+            ]).then(result => {
+                casesStats = result
+            })
+            .then(() => {
+                CasesModel.aggregate([{
+                            "$match": {
+                                "createdAt": {
+                                    "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                                    // "$lt": new Date("2020-05-22")
+                                },
+                            }
+                        },
+                        {
+                            "$group": {
+                                _id: {
+                                    "city": "$city"
+                                },
+                                count: {
+                                    $sum: 1
                                 }
-                            })
-                            .catch(err => console.log(err))
-                    }
-                })
-                .catch(err => console.log(err))
+                            }
+                        }
+                    ])
+                    .then(result => {
+                        for (const key in result) {
+                            totalCityStat[result[key]._id.city] = result[key].count
+                        }
+                    })
+                    .then(() => {
 
-        })
+                        for (const key in casesStats) {
+                            UserSignUpModel.find({
+                                    neibhorhood: casesStats[key]._id.neighborhood.neighborhood,
+                                    status: true
+                                })
+                                .then(user => {
+                                    if (user.length > 0) {
+                                        for (const userRecord of user) {
+                                            let message = `Hello,\n\nCommunity Anonymous Cases today:\n\nYour Neighborhood - ${casesStats[key]._id.neighborhood.neighborhood}: ${casesStats[key].count} Cases\n\nYour city - ${casesStats[key]._id.city.city}: ${totalCityStat[String(casesStats[key]._id.city.city)]} cases\n\nStay Safe,\nAnonymous Covid19 Response Team\n\nFor more information:\n http://${req.headers.host}\n\nTo stop Receiving Messages, click:\n http://${req.headers.host}/notifications/signup/confirmDelete/${userRecord._id}?confirmCode=${userRecord.confirmCode}`;
+                                            client.messages
+                                                .create({
+                                                    body: message,
+                                                    from: '+12066874626',
+                                                    to: userRecord.phone
+                                                })
+                                                .catch(err => console.log(err))
+                                        }
+                                    }
+                                })
+                                .catch(err => console.log(err))
+                        }
+                    })
+                    .catch(err => console.log(err))
+
+            })
+    }
 });
 
 mongoose.connect(MONGODB_URI, {
@@ -174,7 +177,7 @@ mongoose.connect(MONGODB_URI, {
     })
 
 // https encryption manually
-    // https.createServer({
-    //     key: privatekey,
-    //     cert: certificateFile
-    // }, app).listen(process.env.PORT || 3000);
+// https.createServer({
+//     key: privatekey,
+//     cert: certificateFile
+// }, app).listen(process.env.PORT || 3000);

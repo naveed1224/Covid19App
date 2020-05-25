@@ -31,7 +31,7 @@
                     <p>Please do not include any Confidential information.</p>
                 </div>
 
-                <form class="uk-grid-small" uk-grid action="http://localhost:3000/case/case-create" method="POST">
+                <form class="uk-grid-small" method="POST">
                     <span class="uk-label">Case Address</span>
                     <div class="uk-width-1-1">
                         <div id="custom-search-input">
@@ -290,6 +290,7 @@
 
 
         function initAutocomplete() {
+            const base_url = ''
             var lat;
             var lng;
             navigator.geolocation.getCurrentPosition((position) => lat = position.coords.latitude)
@@ -447,7 +448,7 @@
                 console.log(err)
             }
             try {
-                fetch('http://localhost:3000/case/viewCases', {
+                fetch(`${base_url}/case/viewCases`, {
                         method: 'GET',
                         headers: {
                             headers: {

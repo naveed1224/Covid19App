@@ -85,7 +85,7 @@ exports.signUpDeleteConfirm = (req, res, next) => {
 exports.signupController = (req, res, next) => {
     const signupConfirmCode = Math.floor(1000 + Math.random() * 9000)
     const phone = req.body.userSignuPhone
-    const parsedPhone = phone.replace(/[-+()\.\s]/g, '')
+    const parsedPhone = phone.replace(/[-+()\`\,\.\s]/g, '')
     UserSignupModel.find({
             phone: parsedPhone
         })
@@ -115,7 +115,7 @@ exports.signupController = (req, res, next) => {
                     .then(result => {
                         client.messages
                             .create({
-                                body: `Click below to confirm your signup:\n ${SITE_BASE_URL}/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}\n \nIf you no longer want to receive any notifications, click link below:\n${SITE_BASE_URL}/notifications/signup/confirmDelete/${result._id}?confirmCode=${signupConfirmCode}`,
+                                body: `Click below to confirm your signup:\n\n http://${req.headers.host}/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}\n\nIf you no longer want to receive any notifications, click link below:\n\nhttp://${req.headers.host}/notifications/signup/confirmDelete/${result._id}?confirmCode=${signupConfirmCode}`,
                                 from: '+12066874626',
                                 to: `${result.phone}`
                             })
