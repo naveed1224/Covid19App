@@ -115,7 +115,7 @@ exports.signupController = (req, res, next) => {
                     .then(result => {
                         client.messages
                             .create({
-                                body: `Click below to confirm your signup:\n http://localhost:3000/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}\n \nIf you no longer want to receive any notifications, click link below:\nhttp://localhost:3000/notifications/signup/confirmDelete/${result._id}?confirmCode=${signupConfirmCode}`,
+                                body: `Click below to confirm your signup:\n ${SITE_BASE_URL}/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}\n \nIf you no longer want to receive any notifications, click link below:\n${SITE_BASE_URL}/notifications/signup/confirmDelete/${result._id}?confirmCode=${signupConfirmCode}`,
                                 from: '+12066874626',
                                 to: `${result.phone}`
                             })

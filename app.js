@@ -1,4 +1,6 @@
 const path = require('path');
+const fs = require('fs');
+const https = require('https')
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -12,19 +14,40 @@ const signRoutes = require('./routes/signupRoutes');
 const covid19APIRoutes = require('./routes/covid19API');
 const CasesModel = require('./models/cases');
 const UserSignUpModel = require('./models/signupModel');
+//require('dotenv').config()
+
+//securing incoming Requests
+const helmet = require('helmet');
+
+//compressing assets
+const compression = require("compression");
 
 //cron backgroud job
 const cron = require("node-cron");
+
+//logging
+const morgan = require("morgan");
 
 //twilio account connection setup
 const accountSid = 'AC50430158c37f3e30943dc2f16350aa21';
 const authToken = 'e5e0a136a3e3841488b6a31c3f110a35';
 const client = require('twilio')(accountSid, authToken);
 
-//daravase connection
-const MONGODB_URI = 'mongodb+srv://Naveed:Bismillah4321@cluster0-7cieb.mongodb.net/covid19App?retryWrites=true&w=majority';
+const privatekey = fs.readFileSync('server.key');
+const certificateFile = fs.readFileSync('server.cert');
+
+let MONGODB_URI = `${process.env.MONGO_URL}`;
+
+const fileLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
+    flags: 'a'
+})
 
 const app = express();
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined", {
+    stream: fileLogStream
+}))
 
 //receiving json in body
 app.use(bodyParser.json());
@@ -144,8 +167,14 @@ mongoose.connect(MONGODB_URI, {
         useNewUrlParser: true
     })
     .then(result => {
-        app.listen(3000);
+        app.listen(process.env.PORT || 3000);
     })
     .catch(err => {
         console.log(err)
     })
+
+// https encryption manually
+    // https.createServer({
+    //     key: privatekey,
+    //     cert: certificateFile
+    // }, app).listen(process.env.PORT || 3000);

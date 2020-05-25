@@ -5,7 +5,7 @@ const NotifyModel = require('../models/notifiedUser');
 
 const transport = nodeMailer.createTransport(sendGrid({
   auth: {
-    api_key: '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'
+    api_key: `${process.env.NODE_MAIL_API_KEY}`
   }
 }));
 
@@ -267,7 +267,6 @@ exports.notifyUser = (req, res, next) => {
                           <td width="540" valign="top" align="center" style="padding:0;Margin:0;"> 
                            <table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;"> 
                              <tr style="border-collapse:collapse;"> 
-                              <td align="left" style="padding:0;Margin:0;padding-top:25px;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:21px;color:#666666;">You received this email because you just signed up for a new account. If it looks weird, <strong><a class="view" target="_blank" href="https://viewstripo.email" style="-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:14px;text-decoration:underline;color:#111111;">view it in your browser</a></strong>.</p></td> 
                              </tr> 
                            </table></td> 
                          </tr> 
