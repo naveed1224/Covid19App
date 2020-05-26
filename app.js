@@ -152,6 +152,7 @@ cron.schedule("30 23 * * *", function () {
                                                     from: '+12066874626',
                                                     to: userRecord.phone
                                                 })
+                                                .then(() => console.log("Messages sent based on schedule."))
                                                 .catch(err => console.log(err))
                                         }
                                     }
