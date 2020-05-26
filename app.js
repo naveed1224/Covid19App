@@ -79,7 +79,7 @@ app.use('/notifications', signRoutes);
 app.use('/API', covid19APIRoutes);
 
 //cron backend job
-cron.schedule("0 22 * * *", function () {
+cron.schedule("30 23 * * *", function () {
     let casesStats = {};
     let totalCityStat = {};
     const hostname = (req, res, next) => {
