@@ -25,7 +25,7 @@ exports.notifyUser = (req, res, next) => {
             if (userEmail !== '') {
               transport.sendMail({
                 to: userEmail,
-                from: 'n.n_sultan@hotmail.com',
+                from: '',
                 subject: 'Attention!',
                 html: `
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

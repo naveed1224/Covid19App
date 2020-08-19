@@ -16,6 +16,7 @@ const CasesModel = require('./models/cases');
 const UserSignUpModel = require('./models/signupModel');
 //require('dotenv').config()
 
+
 //securing incoming Requests
 const helmet = require('helmet');
 
@@ -36,7 +37,7 @@ const client = require('twilio')(accountSid, authToken);
 const privatekey = fs.readFileSync('server.key');
 const certificateFile = fs.readFileSync('server.cert');
 
-let MONGODB_URI = `${process.env.MONGO_URL}`;
+let MONGODB_URI = "" //process.env.MONGO_URL;
 
 const fileLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
     flags: 'a'
@@ -77,94 +78,101 @@ app.use('/case', caseRoutes);
 app.use('/email', notifyRoutes);
 app.use('/notifications', signRoutes);
 app.use('/API', covid19APIRoutes);
+let host = {}
+
+app.use((req, res, next) => {
+    host.host = req.headers.host
+})
 
 //cron backend job
 cron.schedule("* * * * *", function () {
     console.log('hello')
     let casesStats = {};
     let totalCityStat = {};
-    const hostname = (req, res, next) => {
 
-        CasesModel.aggregate([{
-                    "$match": {
-                        "createdAt": {
-                            "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
-                            // "$lt": new Date("2020-05-22")
+    console.log(host)
+
+
+    CasesModel.aggregate([{
+                "$match": {
+                    "createdAt": {
+                        "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                        // "$lt": new Date("2020-05-22")
+                    },
+                }
+            },
+            {
+                "$group": {
+                    _id: {
+                        "city": {
+                            "city": "$city"
                         },
-                    }
-                },
-                {
-                    "$group": {
-                        _id: {
-                            "city": {
-                                "city": "$city"
-                            },
-                            "neighborhood": {
-                                "neighborhood": "$neighborhood"
-                            },
+                        "neighborhood": {
+                            "neighborhood": "$neighborhood"
                         },
-                        count: {
-                            $sum: 1
-                        }
+                    },
+                    count: {
+                        $sum: 1
                     }
                 }
-            ]).then(result => {
-                casesStats = result
-            })
-            .then(() => {
-                CasesModel.aggregate([{
-                            "$match": {
-                                "createdAt": {
-                                    "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
-                                    // "$lt": new Date("2020-05-22")
-                                },
-                            }
-                        },
-                        {
-                            "$group": {
-                                _id: {
-                                    "city": "$city"
-                                },
-                                count: {
-                                    $sum: 1
-                                }
+            }
+        ]).then(result => {
+            casesStats = result
+        })
+        .then(() => {
+            CasesModel.aggregate([{
+                        "$match": {
+                            "createdAt": {
+                                "$gte": new Date(new Date().setUTCHours(0, 0, 0, 0))
+                                // "$lt": new Date("2020-05-22")
+                            },
+                        }
+                    },
+                    {
+                        "$group": {
+                            _id: {
+                                "city": "$city"
+                            },
+                            count: {
+                                $sum: 1
                             }
                         }
-                    ])
-                    .then(result => {
-                        for (const key in result) {
-                            totalCityStat[result[key]._id.city] = result[key].count
-                        }
-                    })
-                    .then(() => {
+                    }
+                ])
+                .then(result => {
+                    for (const key in result) {
+                        totalCityStat[result[key]._id.city] = result[key].count
+                    }
+                })
+                .then(() => {
 
-                        for (const key in casesStats) {
-                            UserSignUpModel.find({
-                                    neibhorhood: casesStats[key]._id.neighborhood.neighborhood,
-                                    status: true
-                                })
-                                .then(user => {
-                                    if (user.length > 0) {
-                                        for (const userRecord of user) {
-                                            let message = `Hello,\n\nCommunity Anonymous Cases today:\n\nYour Neighborhood - ${casesStats[key]._id.neighborhood.neighborhood}: ${casesStats[key].count} Cases\n\nYour city - ${casesStats[key]._id.city.city}: ${totalCityStat[String(casesStats[key]._id.city.city)]} cases\n\nStay Safe,\nAnonymous Covid19 Response Team\n\nFor more information:\n http://${req.headers.host}\n\nTo stop Receiving Messages, click:\n http://${req.headers.host}/notifications/signup/confirmDelete/${userRecord._id}?confirmCode=${userRecord.confirmCode}`;
-                                            client.messages
-                                                .create({
-                                                    body: message,
-                                                    from: '+12066874626',
-                                                    to: userRecord.phone
-                                                })
-                                                .then(() => console.log("Messages sent based on schedule."))
-                                                .catch(err => console.log(err))
-                                        }
+                    for (const key in casesStats) {
+                        UserSignUpModel.find({
+                                neibhorhood: casesStats[key]._id.neighborhood.neighborhood,
+                                status: true
+                            })
+                            .then(user => {
+                                if (user.length > 0) {
+                                    for (const userRecord of user) {
+                                        let message = `Hello,\n\nCommunity Anonymous Cases today:\n\nYour Neighborhood - ${casesStats[key]._id.neighborhood.neighborhood}: ${casesStats[key].count} Cases\n\nYour city - ${casesStats[key]._id.city.city}: ${totalCityStat[String(casesStats[key]._id.city.city)]} cases\n\nStay Safe,\nAnonymous Covid19 Response Team\n\nFor more information:\n https://anonymouscovid19.azurewebsites.net/\n\nTo stop Receiving Messages, click:\n https://anonymouscovid19.azurewebsites.net/notifications/signup/confirmDelete/${userRecord._id}?confirmCode=${userRecord.confirmCode}`;
+                                        client.messages
+                                            .create({
+                                                body: message,
+                                                from: '+12066874626',
+                                                to: userRecord.phone
+                                            })
+                                            .then(() => console.log("Messages sent based on schedule."))
+                                            .catch(err => console.log(err))
                                     }
-                                })
-                                .catch(err => console.log(err))
-                        }
-                    })
-                    .catch(err => console.log(err))
+                                }
+                            })
+                            .catch(err => console.log(err))
+                    }
+                })
+                .catch(err => console.log(err))
 
-            })
-    }
+        })
+    //}
 });
 
 mongoose.connect(MONGODB_URI, {

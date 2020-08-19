@@ -8,7 +8,7 @@ const client = require('twilio')(accountSid, authToken);
 
 const transport = nodeMailer.createTransport(sendGrid({
     auth: {
-        api_key: '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'
+        api_key: ''
     }
 }));
 
@@ -116,7 +116,7 @@ exports.signupController = (req, res, next) => {
                         client.messages
                             .create({
                                 body: `Click below to confirm your signup:\n\n http://${req.headers.host}/notifications/signup/confirm/${result._id}?confirmCode=${signupConfirmCode}\n\nIf you no longer want to receive any notifications, click link below:\n\nhttp://${req.headers.host}/notifications/signup/confirmDelete/${result._id}?confirmCode=${signupConfirmCode}`,
-                                from: '+12066874626',
+                                from: '',
                                 to: `${result.phone}`
                             })
                             .then(message => console.log(''));

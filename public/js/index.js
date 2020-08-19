@@ -93,13 +93,7 @@ const submitCase = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                lat: lat.value,
-                lng: lng.value,
-                userEmail: userEmail.value,
-                neighborhood: case_neighborhood.value,
-                city: case_city.value,
-                province: case_province.value,
-                country: case_country.value
+                lat: 'testingjsdfjsdkljksldj'
             })
         })
         .then(response => {
