@@ -1,7 +1,7 @@
 {
     "env": {
-        "MONGO_URL": "mongodb+srv://Naveed:Bismillah4321@cluster0-7cieb.mongodb.net/covid19App?retryWrites=true&w=majority",
-        "NODE_MAIL_API_KEY": "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",
+        "MONGO_URL": "",
+        "NODE_MAIL_API_KEY": "",
         "SITE_BASE_URL": ""
     }
 }
