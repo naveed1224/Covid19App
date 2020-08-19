@@ -1,4 +1,4 @@
-# Covid19App
+# Full Stack Covid19App
 Workplace Covid19 competition project
 
 Features:
